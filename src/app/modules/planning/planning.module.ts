@@ -1,7 +1,7 @@
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
-import { SharedModule } from './../shared/shared.module';
+
 import { InputNumberModule } from 'primeng/inputnumber';
 import { CalendarModule } from 'primeng/calendar';
 import { HttpClientModule } from '@angular/common/http';
@@ -13,7 +13,7 @@ import { PanelModule } from 'primeng/panel';
 import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { TemplateModule } from './../template/template.module';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
@@ -25,28 +25,26 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
-        CommonModule,
-        PlanningRoutingModule,
-        TemplateModule,
-        ToolbarModule,
-        ButtonModule,
-        PanelModule,
-        InputTextModule,
-        SelectButtonModule,
-        TableModule,
-        ChipModule,
-        HttpClientModule,
-        CalendarModule,
-        InputNumberModule,
-        SharedModule,
-        ConfirmPopupModule,
-        TooltipModule,
-        TagModule,
-        InputSwitchModule,
-        DropdownModule,
-        FormsModule,
-        ReactiveFormsModule,
-        PlanningListComponent, PlanningComponent
-    ],
+    CommonModule,
+    PlanningRoutingModule,
+    ToolbarModule,
+    ButtonModule,
+    PanelModule,
+    InputTextModule,
+    SelectButtonModule,
+    TableModule,
+    ChipModule,
+    HttpClientModule,
+    CalendarModule,
+    InputNumberModule,
+    ConfirmPopupModule,
+    TooltipModule,
+    TagModule,
+    InputSwitchModule,
+    DropdownModule,
+    FormsModule,
+    ReactiveFormsModule,
+    PlanningListComponent, PlanningComponent
+],
 })
 export class PlanningModule {}

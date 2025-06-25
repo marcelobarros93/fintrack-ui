@@ -1,4 +1,4 @@
-import { SharedModule } from './../shared/shared.module';
+
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -24,26 +24,25 @@ import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
     imports: [
-        CommonModule,
-        ExpenseRoutingModule,
-        ToolbarModule,
-        ButtonModule,
-        PanelModule,
-        InputTextModule,
-        SelectButtonModule,
-        TableModule,
-        ChipModule,
-        HttpClientModule,
-        CalendarModule,
-        InputNumberModule,
-        SharedModule,
-        ConfirmPopupModule,
-        TooltipModule,
-        TagModule,
-        FormsModule,
-        DropdownModule,
-        TagModule,
-        ExpenseListComponent, ExpenseComponent,
-    ],
+    CommonModule,
+    ExpenseRoutingModule,
+    ToolbarModule,
+    ButtonModule,
+    PanelModule,
+    InputTextModule,
+    SelectButtonModule,
+    TableModule,
+    ChipModule,
+    HttpClientModule,
+    CalendarModule,
+    InputNumberModule,
+    ConfirmPopupModule,
+    TooltipModule,
+    TagModule,
+    FormsModule,
+    DropdownModule,
+    TagModule,
+    ExpenseListComponent, ExpenseComponent,
+],
 })
 export class ExpenseModule {}

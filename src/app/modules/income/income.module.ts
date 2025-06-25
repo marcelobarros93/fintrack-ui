@@ -1,5 +1,5 @@
-import { SharedModule } from './../shared/shared.module';
-import { TemplateModule } from './../template/template.module';
+
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -25,26 +25,24 @@ import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
     imports: [
-        CommonModule,
-        IncomeRoutingModule,
-        TemplateModule,
-        ToolbarModule,
-        ButtonModule,
-        PanelModule,
-        InputTextModule,
-        SelectButtonModule,
-        TableModule,
-        FormsModule,
-        ChipModule,
-        HttpClientModule,
-        CalendarModule,
-        InputNumberModule,
-        SharedModule,
-        ConfirmPopupModule,
-        TooltipModule,
-        TagModule,
-        DropdownModule,
-        IncomeListComponent, IncomeComponent,
-    ],
+    CommonModule,
+    IncomeRoutingModule,
+    ToolbarModule,
+    ButtonModule,
+    PanelModule,
+    InputTextModule,
+    SelectButtonModule,
+    TableModule,
+    FormsModule,
+    ChipModule,
+    HttpClientModule,
+    CalendarModule,
+    InputNumberModule,
+    ConfirmPopupModule,
+    TooltipModule,
+    TagModule,
+    DropdownModule,
+    IncomeListComponent, IncomeComponent,
+],
 })
 export class IncomeModule {}
