@@ -2,13 +2,16 @@ import { ErrorHandlerService } from '../../core/error-handler.service';
 import { Balance } from './../balance';
 import { DashboardService } from './../dashboard.service';
 import { PeriodOverview } from './PeriodOverview';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgStyle } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { ChartModule } from 'primeng/chart';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
+    selector: 'app-dashboard',
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.css'],
+    standalone: true,
+    imports: [NgStyle, ChartModule],
 })
 export class DashboardComponent implements OnInit {
   balance?: Balance;

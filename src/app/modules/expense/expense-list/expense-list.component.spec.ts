@@ -8,8 +8,8 @@ describe('ExpenseListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ExpenseListComponent ]
-    })
+    imports: [ExpenseListComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(ExpenseListComponent);

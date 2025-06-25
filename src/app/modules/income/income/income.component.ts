@@ -1,19 +1,40 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgIf } from '@angular/common';
 import { IncomeService } from './../income.service';
 import { Income } from './../income';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ErrorHandlerService } from '../../core/error-handler.service';
 import {
   CategoryResponse,
   CategoryService,
 } from '../../category/category.service';
+import { ButtonDirective } from 'primeng/button';
+import { CalendarModule } from 'primeng/calendar';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputMessageComponent } from '../../shared/input-message/input-message.component';
+import { InputTextModule } from 'primeng/inputtext';
+import { FormsModule } from '@angular/forms';
+import { TagModule } from 'primeng/tag';
 
 @Component({
-  selector: 'app-income',
-  templateUrl: './income.component.html',
-  styleUrls: ['./income.component.css'],
+    selector: 'app-income',
+    templateUrl: './income.component.html',
+    styleUrls: ['./income.component.css'],
+    standalone: true,
+    imports: [
+        NgIf,
+        TagModule,
+        FormsModule,
+        InputTextModule,
+        InputMessageComponent,
+        InputNumberModule,
+        DropdownModule,
+        CalendarModule,
+        ButtonDirective,
+        RouterLink,
+    ],
 })
 export class IncomeComponent implements OnInit {
   statusOptions = [

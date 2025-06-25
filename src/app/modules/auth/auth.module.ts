@@ -9,16 +9,14 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    LoginComponent
-  ],
-  imports: [
-    CommonModule,
-    PasswordModule,
-    ButtonModule,
-    AuthRoutingModule,
-    InputTextModule,
-    FormsModule
-  ]
+    imports: [
+        CommonModule,
+        PasswordModule,
+        ButtonModule,
+        AuthRoutingModule,
+        InputTextModule,
+        FormsModule,
+        LoginComponent
+    ]
 })
 export class AuthModule { }

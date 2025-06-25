@@ -6,15 +6,13 @@ import { HeaderComponent } from './header/header.component';
 
 
 @NgModule({
-  declarations: [
-    HeaderComponent
-  ],
-  imports: [
-    CommonModule,
-    RouterModule
-  ],
-  exports: [
-    HeaderComponent
-  ]
+    imports: [
+        CommonModule,
+        RouterModule,
+        HeaderComponent
+    ],
+    exports: [
+        HeaderComponent
+    ]
 })
 export class TemplateModule { }

@@ -5,14 +5,12 @@ import { InputMessageComponent } from './input-message/input-message.component';
 
 
 @NgModule({
-  declarations: [
-    InputMessageComponent
-  ],
-  imports: [
-    CommonModule
-  ],
-  exports: [
-    InputMessageComponent
-  ]
+    imports: [
+        CommonModule,
+        InputMessageComponent
+    ],
+    exports: [
+        InputMessageComponent
+    ]
 })
 export class SharedModule { }

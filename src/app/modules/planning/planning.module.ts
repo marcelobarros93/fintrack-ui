@@ -24,29 +24,29 @@ import { PlanningComponent } from './planning/planning.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [PlanningListComponent, PlanningComponent],
-  imports: [
-    CommonModule,
-    PlanningRoutingModule,
-    TemplateModule,
-    ToolbarModule,
-    ButtonModule,
-    PanelModule,
-    InputTextModule,
-    SelectButtonModule,
-    TableModule,
-    ChipModule,
-    HttpClientModule,
-    CalendarModule,
-    InputNumberModule,
-    SharedModule,
-    ConfirmPopupModule,
-    TooltipModule,
-    TagModule,
-    InputSwitchModule,
-    DropdownModule,
-    FormsModule,
-    ReactiveFormsModule
-  ],
+    imports: [
+        CommonModule,
+        PlanningRoutingModule,
+        TemplateModule,
+        ToolbarModule,
+        ButtonModule,
+        PanelModule,
+        InputTextModule,
+        SelectButtonModule,
+        TableModule,
+        ChipModule,
+        HttpClientModule,
+        CalendarModule,
+        InputNumberModule,
+        SharedModule,
+        ConfirmPopupModule,
+        TooltipModule,
+        TagModule,
+        InputSwitchModule,
+        DropdownModule,
+        FormsModule,
+        ReactiveFormsModule,
+        PlanningListComponent, PlanningComponent
+    ],
 })
 export class PlanningModule {}
