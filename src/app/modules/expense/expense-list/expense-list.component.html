@@ -150,8 +150,15 @@
             <td style="width: 5%">
               <span class="p-column-title">Status:</span>
               <p-tag
+                *ngIf="expense.status == 'OPEN'"
                 [rounded]="true"
-                severity="{{ expense.status == 'OPEN' ? 'danger' : 'success' }}"
+                severity="danger"
+                value="{{ expense.status }}"
+              ></p-tag>
+              <p-tag
+                *ngIf="expense.status == 'PAID'"
+                [rounded]="true"
+                severity="success"
                 value="{{ expense.status }}"
               ></p-tag>
             </td>
