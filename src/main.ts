@@ -4,12 +4,10 @@ import {
   LOCALE_ID,
   importProvidersFrom,
 } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
 import { ToastModule } from 'primeng/toast';
-import { AppRoutingModule } from './app/app-routing.module';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { FormBuilder } from '@angular/forms';
@@ -23,6 +21,8 @@ import {
 } from '@angular/common/http';
 
 import localePt from '@angular/common/locales/pt';
+import { provideRouter } from '@angular/router';
+import { APP_ROUTES } from './app/app.routes';
 
 if (environment.production) {
   enableProdMode();
@@ -32,12 +32,7 @@ registerLocaleData(localePt, 'pt-BR');
 
 bootstrapApplication(AppComponent, {
   providers: [
-    importProvidersFrom(
-      BrowserModule,
-      AppRoutingModule,
-      CommonModule,
-      ToastModule
-    ),
+    importProvidersFrom(BrowserModule, CommonModule, ToastModule),
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
     { provide: LOCALE_ID, useValue: 'pt-BR' },
     {
@@ -51,5 +46,6 @@ bootstrapApplication(AppComponent, {
     FormBuilder,
     provideAnimations(),
     provideHttpClient(withInterceptorsFromDi()),
+    provideRouter(APP_ROUTES),
   ],
 }).catch((err) => console.error(err));
