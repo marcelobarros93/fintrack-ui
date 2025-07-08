@@ -1,15 +1,12 @@
+import { Routes } from '@angular/router';
 import { AppLayoutComponent } from './layout/app.layout.component';
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from './auth.guard';
 
-const routes: Routes = [
+export const APP_ROUTES: Routes = [
   {
     path: 'login',
     loadChildren: () =>
-      import('./modules/auth/auth.module').then(
-        (m) => m.AuthModule
-      )
+      import('./modules/auth/auth.routes').then((m) => m.AUTH_ROUTES),
   },
   {
     path: '',
@@ -19,39 +16,33 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: () =>
-          import('./modules/dashboard/dashboard.module').then(
-            (m) => m.DashboardModule
+          import('./modules/dashboard/dashboard.routes').then(
+            (m) => m.DASHBOARD_ROUTES
           ),
         canActivate: [authGuard],
       },
       {
         path: 'income',
         loadChildren: () =>
-          import('./modules/income/income.module').then((m) => m.IncomeModule),
+          import('./modules/income/income.routes').then((m) => m.INCOME_ROUTES),
         canActivate: [authGuard],
       },
       {
         path: 'expense',
         loadChildren: () =>
-          import('./modules/expense/expense.module').then(
-            (m) => m.ExpenseModule
+          import('./modules/expense/expense.routes').then(
+            (m) => m.EXPENSE_ROUTES
           ),
         canActivate: [authGuard],
       },
       {
         path: 'planning',
         loadChildren: () =>
-          import('./modules/planning/planning.module').then(
-            (m) => m.PlanningModule
+          import('./modules/planning/planning.routes').then(
+            (m) => m.PLANNING_ROUTES
           ),
         canActivate: [authGuard],
       },
     ],
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}

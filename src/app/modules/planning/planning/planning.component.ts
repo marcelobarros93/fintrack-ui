@@ -1,19 +1,43 @@
 import { MessageService } from 'primeng/api';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PlanningService } from './../planning.service';
 import { Component, OnInit } from '@angular/core';
 import { Planning } from '../planning';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ErrorHandlerService } from '../../core/error-handler.service';
 import {
   CategoryResponse,
   CategoryService,
 } from '../../category/category.service';
+import { NgIf } from '@angular/common';
+import { ButtonDirective } from 'primeng/button';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { CalendarModule } from 'primeng/calendar';
+import { DropdownModule } from 'primeng/dropdown';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputMessageComponent } from '../../shared/input-message/input-message.component';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
-  selector: 'app-planning',
-  templateUrl: './planning.component.html',
-  styleUrls: ['./planning.component.css'],
+    selector: 'app-planning',
+    templateUrl: './planning.component.html',
+    styleUrls: ['./planning.component.css'],
+    standalone: true,
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        InputTextModule,
+        InputMessageComponent,
+        InputNumberModule,
+        SelectButtonModule,
+        DropdownModule,
+        CalendarModule,
+        InputSwitchModule,
+        ButtonDirective,
+        RouterLink,
+        NgIf,
+    ],
 })
 export class PlanningComponent implements OnInit {
   typeOptions = [

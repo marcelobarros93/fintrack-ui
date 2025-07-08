@@ -1,18 +1,45 @@
-import {
-  LazyLoadEvent,
-  ConfirmationService,
-  MessageService,
-} from 'primeng/api';
+import { LazyLoadEvent, ConfirmationService, MessageService, PrimeTemplate } from 'primeng/api';
 import { Planning } from './../planning';
 import { Component, OnInit } from '@angular/core';
 import { PlanningFilter, PlanningService } from '../planning.service';
-import { TableLazyLoadEvent } from 'primeng/table';
+import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { ErrorHandlerService } from '../../core/error-handler.service';
+import { TagModule } from 'primeng/tag';
+import { NgIf, CurrencyPipe, DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { TooltipModule } from 'primeng/tooltip';
+import { ButtonDirective } from 'primeng/button';
+import { DropdownModule } from 'primeng/dropdown';
+import { CalendarModule } from 'primeng/calendar';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { InputTextModule } from 'primeng/inputtext';
+import { PanelModule } from 'primeng/panel';
+import { FormsModule } from '@angular/forms';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
 @Component({
-  selector: 'app-planning-list',
-  templateUrl: './planning-list.component.html',
-  styleUrls: ['./planning-list.component.css'],
+    selector: 'app-planning-list',
+    templateUrl: './planning-list.component.html',
+    styleUrls: ['./planning-list.component.css'],
+    standalone: true,
+    imports: [
+        ConfirmPopupModule,
+        FormsModule,
+        PanelModule,
+        InputTextModule,
+        SelectButtonModule,
+        CalendarModule,
+        DropdownModule,
+        ButtonDirective,
+        TableModule,
+        PrimeTemplate,
+        TooltipModule,
+        RouterLink,
+        NgIf,
+        TagModule,
+        CurrencyPipe,
+        DatePipe,
+    ],
 })
 export class PlanningListComponent implements OnInit {
   typeOptions = [

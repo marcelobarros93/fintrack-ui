@@ -1,18 +1,40 @@
 import { ErrorHandlerService } from './../../core/error-handler.service';
 import { MessageService } from 'primeng/api';
 import { ExpenseService } from './../expense.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { Expense } from './../expense';
 import { Component, OnInit } from '@angular/core';
 import {
   CategoryResponse,
   CategoryService,
 } from '../../category/category.service';
+import { ButtonDirective } from 'primeng/button';
+import { CalendarModule } from 'primeng/calendar';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputMessageComponent } from '../../shared/input-message/input-message.component';
+import { InputTextModule } from 'primeng/inputtext';
+import { FormsModule } from '@angular/forms';
+import { TagModule } from 'primeng/tag';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-expense',
-  templateUrl: './expense.component.html',
-  styleUrls: ['./expense.component.css'],
+    selector: 'app-expense',
+    templateUrl: './expense.component.html',
+    styleUrls: ['./expense.component.css'],
+    standalone: true,
+    imports: [
+        NgIf,
+        TagModule,
+        FormsModule,
+        InputTextModule,
+        InputMessageComponent,
+        InputNumberModule,
+        DropdownModule,
+        CalendarModule,
+        ButtonDirective,
+        RouterLink,
+    ],
 })
 export class ExpenseComponent implements OnInit {
   statusOptions = [

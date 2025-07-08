@@ -1,19 +1,44 @@
-import {
-  ConfirmationService,
-  MessageService,
-  LazyLoadEvent,
-} from 'primeng/api';
+import { ConfirmationService, MessageService, LazyLoadEvent, PrimeTemplate } from 'primeng/api';
 import { IncomeService } from './../../income/income.service';
 import { ExpenseFilter, ExpenseService } from './../expense.service';
 import { Expense } from './../expense';
 import { Component, OnInit } from '@angular/core';
-import { TableLazyLoadEvent } from 'primeng/table';
+import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { ErrorHandlerService } from '../../core/error-handler.service';
+import { TagModule } from 'primeng/tag';
+import { NgIf, CurrencyPipe, DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { TooltipModule } from 'primeng/tooltip';
+import { ButtonDirective } from 'primeng/button';
+import { CalendarModule } from 'primeng/calendar';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { InputTextModule } from 'primeng/inputtext';
+import { PanelModule } from 'primeng/panel';
+import { FormsModule } from '@angular/forms';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
 @Component({
-  selector: 'app-expense-list',
-  templateUrl: './expense-list.component.html',
-  styleUrls: ['./expense-list.component.css'],
+    selector: 'app-expense-list',
+    templateUrl: './expense-list.component.html',
+    styleUrls: ['./expense-list.component.css'],
+    standalone: true,
+    imports: [
+        ConfirmPopupModule,
+        FormsModule,
+        PanelModule,
+        InputTextModule,
+        SelectButtonModule,
+        CalendarModule,
+        ButtonDirective,
+        TableModule,
+        PrimeTemplate,
+        TooltipModule,
+        RouterLink,
+        NgIf,
+        TagModule,
+        CurrencyPipe,
+        DatePipe,
+    ],
 })
 export class ExpenseListComponent implements OnInit {
   statusOptions = [
