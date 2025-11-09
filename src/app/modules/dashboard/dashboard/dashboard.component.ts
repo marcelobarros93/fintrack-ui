@@ -20,13 +20,13 @@ export class DashboardComponent implements OnInit {
   end?: Date;
 
   constructor(
-    private datePipe: DatePipe,
-    private dashboardService: DashboardService,
-    private errorHandlingService: ErrorHandlerService
+    private readonly datePipe: DatePipe,
+    private readonly dashboardService: DashboardService,
+    private readonly errorHandlingService: ErrorHandlerService
   ) {}
 
   ngOnInit(): void {
-    var now = new Date();
+    const now = new Date();
     this.start = new Date(now.getFullYear(), now.getMonth() - 5, 1);
     this.end = now;
 
@@ -70,14 +70,14 @@ export class DashboardComponent implements OnInit {
       this.start = new Date(this.start!.setMonth(this.start!.getMonth() + 1));
     }
 
-    labels.forEach((element: string) => {
+    for(const element of labels) {
       incomes.push(
         periodOverview.incomes?.find((i) => i.month === element)?.total ?? 0
       );
       expenses.push(
         periodOverview.expenses?.find((i) => i.month === element)?.total ?? 0
       );
-    });
+    }
 
     this.overviewChart = {
       labels: labels,
