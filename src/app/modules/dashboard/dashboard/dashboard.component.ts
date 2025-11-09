@@ -84,12 +84,12 @@ export class DashboardComponent implements OnInit {
       datasets: [
         {
           label: 'Expense',
-          backgroundColor: '#465161',
+          backgroundColor: '#e04e4b',
           data: expenses,
         },
         {
           label: 'Income',
-          backgroundColor: '#59af50',
+          backgroundColor: '#5db359',
           data: incomes,
         },
       ],
