@@ -91,6 +91,7 @@
           <div class="field col-12 md:col-2">
             <label for="dateDue">Date due</label>
             <p-calendar
+              [iconDisplay]="'input'"
               [(ngModel)]="income.dateDue"
               dateFormat="dd/mm/yy"
               [touchUI]="false"
@@ -98,6 +99,7 @@
               name="dateDue"
               #dateDue="ngModel"
               [showIcon]="true"
+              [iconDisplay]="'input'"
               [showButtonBar]="true"
               [required]="true"
             ></p-calendar>
@@ -111,6 +113,7 @@
           <div class="field col-12 md:col-2" *ngIf="isReceived()">
             <label for="dateReceipt">Date receipt</label>
             <p-calendar
+              [iconDisplay]="'input'"
               [(ngModel)]="income.dateReceipt"
               dateFormat="dd/mm/yy"
               [showTime]="true"
@@ -118,6 +121,7 @@
               #dateReceipt="ngModel"
               [required]="true"
               [showIcon]="true"
+              [iconDisplay]="'input'"
               [showButtonBar]="true"
             ></p-calendar>
             <app-input-message

@@ -44,6 +44,7 @@
             <div class="field col-12 md:col-6">
               <label for="dateDueStart">Date due start</label>
               <p-calendar
+                [iconDisplay]="'input'"
                 [(ngModel)]="filter.dateDueStart"
                 dateFormat="dd/mm/yy"
                 name="dateDueStart"
@@ -55,6 +56,7 @@
             <div class="field col-12 md:col-6">
               <label for="dateDueEnd">Date due end</label>
               <p-calendar
+                [iconDisplay]="'input'"
                 [(ngModel)]="filter.dateDueEnd"
                 dateFormat="dd/mm/yy"
                 name="dateDueEnd"
@@ -172,11 +174,11 @@
             </td>
             <td>
               <span class="p-column-title">Date due:</span>
-              {{ expense.dateDue | date : "dd/MM/yyyy" }}
+              {{ expense.dateDue | date: "dd/MM/yyyy" }}
             </td>
             <td>
               <span class="p-column-title">Date payment:</span>
-              {{ expense.datePayment | date : "dd/MM/yyyy HH:mm" }}
+              {{ expense.datePayment | date: "dd/MM/yyyy HH:mm" }}
             </td>
           </tr>
         </ng-template>

@@ -44,6 +44,7 @@
             <div class="field col-12 md:col-6">
               <label for="startAtStart">Start at start</label>
               <p-calendar
+                [iconDisplay]="'input'"
                 [(ngModel)]="filter.startAtStart"
                 dateFormat="mm/yy"
                 view="month"
@@ -56,6 +57,7 @@
             <div class="field col-12 md:col-6">
               <label for="startAtEnd">Start at end</label>
               <p-calendar
+                [iconDisplay]="'input'"
                 [(ngModel)]="filter.startAtEnd"
                 dateFormat="mm/yy"
                 view="month"
@@ -68,6 +70,7 @@
             <div class="field col-12 md:col-6">
               <label for="endAtStart">End at start</label>
               <p-calendar
+                [iconDisplay]="'input'"
                 [(ngModel)]="filter.endAtStart"
                 dateFormat="mm/yy"
                 view="month"
@@ -80,6 +83,7 @@
             <div class="field col-12 md:col-6">
               <label for="endAtEnd">End at end</label>
               <p-calendar
+                [iconDisplay]="'input'"
                 [(ngModel)]="filter.endAtEnd"
                 dateFormat="mm/yy"
                 view="month"
@@ -216,11 +220,11 @@
             </td>
             <td>
               <span class="p-column-title">Start at:</span>
-              {{ planning.startAt | date : "MM/yyyy" }}
+              {{ planning.startAt | date: "MM/yyyy" }}
             </td>
             <td>
               <span class="p-column-title">End at:</span>
-              {{ planning.endAt | date : "MM/yyyy" }}
+              {{ planning.endAt | date: "MM/yyyy" }}
             </td>
           </tr>
         </ng-template>

@@ -1,5 +1,19 @@
 <div class="grid">
   <div class="col-12 lg:col-6 xl:col-3">
+    <!-- Balance month selector -->
+    <div class="mb-3">
+      <label for="balanceMonth">Balance month: </label>
+      <p-calendar
+        id="balanceMonth"
+        [(ngModel)]="selectedBalanceMonth"
+        (onSelect)="onBalanceMonthChange()"
+        view="month"
+        dateFormat="mm/yy"
+        [showIcon]="true"
+        [iconDisplay]="'input'"
+        inputStyleClass="p-inputtext"
+      />
+    </div>
     <div class="card">
       <div class="flex justify-content-between mb-3">
         <div>
@@ -65,6 +79,31 @@
   </div>
 
   <div class="col-12 lg:col-6 xl:col-9">
+    <!-- Overview period selector -->
+    <div class="mb-3 flex align-items-center gap-2">
+      <label for="overviewStart">From:</label>
+      <p-calendar
+        id="overviewStart"
+        [(ngModel)]="selectedOverviewStart"
+        (onSelect)="onOverviewPeriodChange()"
+        view="month"
+        dateFormat="mm/yy"
+        [showIcon]="true"
+        [iconDisplay]="'input'"
+        inputStyleClass="p-inputtext"
+      />
+      <label for="overviewEnd">to</label>
+      <p-calendar
+        id="overviewEnd"
+        [(ngModel)]="selectedOverviewEnd"
+        (onSelect)="onOverviewPeriodChange()"
+        view="month"
+        dateFormat="mm/yy"
+        [showIcon]="true"
+        [iconDisplay]="'input'"
+        inputStyleClass="p-inputtext"
+      />
+    </div>
     <div class="card">
       <h5>
         <i class="pi pi-fw pi-chart-bar"></i>

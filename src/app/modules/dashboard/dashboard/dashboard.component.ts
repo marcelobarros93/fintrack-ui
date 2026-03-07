@@ -3,21 +3,28 @@ import { Balance } from './../balance';
 import { DashboardService } from './../dashboard.service';
 import { PeriodOverview } from './PeriodOverview';
 import { DatePipe, NgStyle } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
+import { CalendarModule } from 'primeng/calendar';
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css'],
     standalone: true,
-    imports: [NgStyle, ChartModule],
+  imports: [NgStyle, ChartModule, FormsModule, CalendarModule],
 })
 export class DashboardComponent implements OnInit {
   balance?: Balance;
   overviewChart: any;
   start?: Date;
   end?: Date;
+
+  // Propriedades para seleção de mês/período
+  selectedBalanceMonth: Date = new Date();
+  selectedOverviewStart: Date = new Date(new Date().getFullYear(), new Date().getMonth() - 5, 1);
+  selectedOverviewEnd: Date = new Date();
 
   constructor(
     private readonly datePipe: DatePipe,
@@ -26,19 +33,36 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const now = new Date();
-    this.start = new Date(now.getFullYear(), now.getMonth() - 5, 1);
-    this.end = now;
-
-    this.loadOverviewChart();
-    this.loadBalance();
+    this.updateOverviewPeriod();
+    this.updateBalanceMonth();
   }
 
-  loadBalance() {
-    let now = new Date();
-    let month = this.datePipe.transform(now, 'yyyy-MM');
+  onBalanceMonthChange() {
+    this.updateBalanceMonth();
+  }
 
-    this.dashboardService.getBalance(month!).subscribe({
+  onOverviewPeriodChange() {
+    this.updateOverviewPeriod();
+  }
+
+  private updateBalanceMonth() {
+    // Converter Date para string no formato yyyy-MM
+    const month = this.datePipe.transform(this.selectedBalanceMonth, 'yyyy-MM');
+    this.loadBalance(month!);
+  }
+
+  private updateOverviewPeriod() {
+    if (this.selectedOverviewStart && this.selectedOverviewEnd) {
+      // selectedOverviewStart/End são Date
+      this.start = new Date(this.selectedOverviewStart.getFullYear(), this.selectedOverviewStart.getMonth(), 1);
+      this.end = new Date(this.selectedOverviewEnd.getFullYear(), this.selectedOverviewEnd.getMonth(), 1);
+      this.loadOverviewChart();
+    }
+  }
+
+  loadBalance(month?: string) {
+    const m = month || this.datePipe.transform(new Date(), 'yyyy-MM');
+    this.dashboardService.getBalance(m!).subscribe({
       next: (result) => {
         this.balance = result;
       },
@@ -49,7 +73,6 @@ export class DashboardComponent implements OnInit {
   loadOverviewChart() {
     let startString = this.datePipe.transform(this.start, 'yyyy-MM');
     let endString = this.datePipe.transform(this.end, 'yyyy-MM');
-
     this.dashboardService
       .getPeriodOverview(startString!, endString!)
       .subscribe({
@@ -65,9 +88,13 @@ export class DashboardComponent implements OnInit {
     let incomes: number[] = [];
     let expenses: number[] = [];
 
-    while (this.start! <= this.end!) {
-      labels.push(this.datePipe.transform(this.start, 'yyyy-MM'));
-      this.start = new Date(this.start!.setMonth(this.start!.getMonth() + 1));
+    // Gera lista de meses entre start e end
+    if (this.start && this.end) {
+      let d = new Date(this.start);
+      while (d <= this.end) {
+        labels.push(this.datePipe.transform(d, 'yyyy-MM'));
+        d = new Date(d.getFullYear(), d.getMonth() + 1, 1);
+      }
     }
 
     for(const element of labels) {

@@ -91,6 +91,7 @@
           <div class="field col-12 md:col-2">
             <label for="dateDue">Date due</label>
             <p-calendar
+              [iconDisplay]="'input'"
               [(ngModel)]="expense.dateDue"
               dateFormat="dd/mm/yy"
               [touchUI]="false"
@@ -111,6 +112,7 @@
           <div class="field col-12 md:col-2" *ngIf="isPaid()">
             <label for="datePayment">Date payment</label>
             <p-calendar
+              [iconDisplay]="'input'"
               [(ngModel)]="expense.datePayment"
               dateFormat="dd/mm/yy"
               [showTime]="true"
