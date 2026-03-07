@@ -23,15 +23,15 @@ export class LoginComponent {
   password: string = '';
 
   constructor(
-    private authService: AuthService,
-    private errorHandlerService: ErrorHandlerService
+    private readonly authService: AuthService,
+    private readonly errorHandlerService: ErrorHandlerService
   ) {}
 
   login(): void {
     this.authService.login(this.username, this.password).subscribe({
       next: (result) => {
-        window.localStorage.setItem('accessToken', result.token);
-        window.location.href = '/';
+        globalThis.localStorage.setItem('accessToken', result.token);
+        globalThis.location.href = '/';
       },
       error: (error) => {
         this.errorHandlerService.handle(error);
