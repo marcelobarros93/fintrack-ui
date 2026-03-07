@@ -1,4 +1,4 @@
-import { CurrencyPipe, DatePipe, NgClass } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -33,7 +33,6 @@ interface SelectOption {
     MenuModule,
     RouterLink,
     DatePipe,
-    CurrencyPipe,
     NgClass,
   ],
 })
@@ -71,14 +70,14 @@ export class IncomeListComponent implements OnInit {
   pendingCount = 0;
   overdueCount = 0;
 
-  private filter: IncomeFilter = {};
+  private readonly filter: IncomeFilter = {};
 
   constructor(
-    private incomeService: IncomeService,
-    private confirmationService: ConfirmationService,
-    private messageService: MessageService,
-    private errorHandlingService: ErrorHandlerService,
-    private router: Router
+    private readonly incomeService: IncomeService,
+    private readonly confirmationService: ConfirmationService,
+    private readonly messageService: MessageService,
+    private readonly errorHandlingService: ErrorHandlerService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -109,7 +108,7 @@ export class IncomeListComponent implements OnInit {
       {
         label: 'Editar',
         icon: 'pi pi-pencil',
-        command: () => this.router.navigate(['/income', income.id]),
+        command: () => void this.router.navigate(['/income', income.id]),
       },
       {
         label: 'Marcar como recebido',
@@ -152,8 +151,8 @@ export class IncomeListComponent implements OnInit {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'BRL',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
     }).format(value ?? 0);
   }
 

@@ -1,4 +1,4 @@
-import { CurrencyPipe, DatePipe, NgClass } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -33,7 +33,6 @@ interface SelectOption {
     MenuModule,
     RouterLink,
     DatePipe,
-    CurrencyPipe,
     NgClass,
   ],
 })
@@ -71,14 +70,14 @@ export class ExpenseListComponent implements OnInit {
   pendingCount = 0;
   overdueCount = 0;
 
-  private filter: ExpenseFilter = {};
+  private readonly filter: ExpenseFilter = {};
 
   constructor(
-    private expenseService: ExpenseService,
-    private confirmationService: ConfirmationService,
-    private messageService: MessageService,
-    private errorHandlingService: ErrorHandlerService,
-    private router: Router
+    private readonly expenseService: ExpenseService,
+    private readonly confirmationService: ConfirmationService,
+    private readonly messageService: MessageService,
+    private readonly errorHandlingService: ErrorHandlerService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -109,7 +108,7 @@ export class ExpenseListComponent implements OnInit {
       {
         label: 'Editar',
         icon: 'pi pi-pencil',
-        command: () => this.router.navigate(['/expense', expense.id]),
+        command: () => void this.router.navigate(['/expense', expense.id]),
       },
       {
         label: 'Marcar como pago',
@@ -152,8 +151,8 @@ export class ExpenseListComponent implements OnInit {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'BRL',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
     }).format(value ?? 0);
   }
 

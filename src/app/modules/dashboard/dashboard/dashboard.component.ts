@@ -1,15 +1,13 @@
-import { NgIf } from '@angular/common';
-import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ChartModule } from 'primeng/chart';
 import { DropdownModule } from 'primeng/dropdown';
-import { forkJoin } from 'rxjs';
 import { ErrorHandlerService } from '../../core/error-handler.service';
 import { DashboardService } from './../dashboard.service';
 import { PeriodOverview } from './PeriodOverview';
 import { ButtonDirective } from 'primeng/button';
+import { DatePipe, NgIf } from '@angular/common';
 
 interface FilterOption {
   label: string;
@@ -170,7 +168,6 @@ export class DashboardComponent implements OnInit {
     const labels: string[] = [];
     const incomes: number[] = [];
     const expenses: number[] = [];
-    const balanceLine: number[] = [];
 
     const cursor = new Date(range.start);
 
@@ -183,7 +180,6 @@ export class DashboardComponent implements OnInit {
 
       incomes.push(income);
       expenses.push(expense);
-      balanceLine.push(income - expense);
 
       cursor.setMonth(cursor.getMonth() + 1);
     }

@@ -65,6 +65,7 @@
       optionLabel="label"
       optionValue="value"
       styleClass="toolbar-dropdown"
+      placeholder="Tipo"
       (onChange)="applyFilters()"
     ></p-dropdown>
 
@@ -75,6 +76,7 @@
       optionLabel="label"
       optionValue="value"
       styleClass="toolbar-dropdown"
+      placeholder="Ativo/Inativo"
       (onChange)="applyFilters()"
     ></p-dropdown>
 
@@ -98,20 +100,20 @@
       [rows]="currentRows"
       [rowsPerPageOptions]="[10, 25, 50]"
       [showCurrentPageReport]="true"
-      currentPageReportTemplate="Mostrando {first}�{last} de {totalRecords}"
+      currentPageReportTemplate="Mostrando {first} - {last} de {totalRecords}"
       styleClass="planning-table"
       responsiveLayout="scroll"
     >
       <ng-template pTemplate="header">
         <tr>
-          <th>Descrição</th>
-          <th class="col-value">Valor</th>
-          <th class="col-day">Dia venc.</th>
-          <th class="col-date">Inicio</th>
-          <th class="col-date">Fim</th>
-          <th class="col-type">Tipo</th>
-          <th class="col-status">Status</th>
-          <th class="col-actions"></th>
+          <th scope="col">Descrição</th>
+          <th scope="col" class="col-value">Valor</th>
+          <th scope="col" class="col-day">Dia venc.</th>
+          <th scope="col" class="col-date">Inicio</th>
+          <th scope="col" class="col-date">Fim</th>
+          <th scope="col" class="col-type">Tipo</th>
+          <th scope="col" class="col-status">Status</th>
+          <th scope="col" class="col-actions"></th>
         </tr>
       </ng-template>
 
@@ -144,6 +146,8 @@
               type="button"
               icon="pi pi-ellipsis-h"
               class="p-button-text action-toggle"
+              aria-label="Ações do planejamento"
+              title="Ações do planejamento"
               (click)="openActions(actionsMenu, $event, planning)"
             ></button>
             <p-menu

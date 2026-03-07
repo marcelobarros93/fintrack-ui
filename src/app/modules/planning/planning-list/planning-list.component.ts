@@ -1,4 +1,4 @@
-import { CurrencyPipe, DatePipe, NgClass } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -33,7 +33,6 @@ interface SelectOption {
     MenuModule,
     RouterLink,
     DatePipe,
-    CurrencyPipe,
     NgClass,
   ],
 })
@@ -68,14 +67,14 @@ export class PlanningListComponent implements OnInit {
   activeCount = 0;
   inactiveCount = 0;
 
-  private filter: PlanningFilter = {};
+  private readonly filter: PlanningFilter = {};
 
   constructor(
-    private planningService: PlanningService,
-    private confirmationService: ConfirmationService,
-    private messageService: MessageService,
-    private errorHandlingService: ErrorHandlerService,
-    private router: Router
+    private readonly planningService: PlanningService,
+    private readonly confirmationService: ConfirmationService,
+    private readonly messageService: MessageService,
+    private readonly errorHandlingService: ErrorHandlerService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -106,7 +105,7 @@ export class PlanningListComponent implements OnInit {
       {
         label: 'Editar',
         icon: 'pi pi-pencil',
-        command: () => this.router.navigate(['/planning', planning.id]),
+        command: () => void this.router.navigate(['/planning', planning.id]),
       },
       {
         label: planning.active ? 'Inativar' : 'Ativar',
@@ -132,8 +131,8 @@ export class PlanningListComponent implements OnInit {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'BRL',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
     }).format(value ?? 0);
   }
 
