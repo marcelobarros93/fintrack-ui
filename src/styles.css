@@ -498,3 +498,190 @@ app-planning-list .empty-state {
         align-items: stretch;
     }
 }
+
+app-income .edit-screen,
+app-expense .edit-screen,
+app-planning .edit-screen {
+    padding: 0.5rem 0;
+}
+
+app-income .edit-card,
+app-expense .edit-card,
+app-planning .edit-card {
+    max-width: 980px;
+    margin: 0 auto;
+    border: 1px solid #dce3ed;
+    border-radius: 1rem;
+    background: #ffffff;
+    overflow: visible;
+}
+
+app-income .edit-card-header,
+app-expense .edit-card-header,
+app-planning .edit-card-header {
+    padding: 2rem 2rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+app-income .edit-card-header h1,
+app-expense .edit-card-header h1,
+app-planning .edit-card-header h1 {
+    margin: 0;
+    color: #243147;
+    font-size: 2.4rem;
+    font-weight: 700;
+}
+
+app-income .edit-status-pill,
+app-expense .edit-status-pill,
+app-planning .edit-status-pill {
+    border-radius: 999px;
+    padding: 0.55rem 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+app-income .edit-status-pill.is-warning,
+app-expense .edit-status-pill.is-warning,
+app-planning .edit-status-pill.is-warning {
+    background: #fff3da;
+    color: #7a4d12;
+}
+
+app-income .edit-status-pill.is-success,
+app-expense .edit-status-pill.is-success,
+app-planning .edit-status-pill.is-success {
+    background: #dbf5e9;
+    color: #16613f;
+}
+
+app-income .edit-form,
+app-expense .edit-form,
+app-planning .edit-form {
+    padding: 0 2rem 0;
+}
+
+app-income .edit-grid,
+app-expense .edit-grid,
+app-planning .edit-grid {
+    margin-bottom: 1.2rem;
+}
+
+app-income .edit-grid label,
+app-expense .edit-grid label,
+app-planning .edit-grid label {
+    display: block;
+    margin-bottom: 0.45rem;
+    color: #475569;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+app-income .edit-grid.full,
+app-expense .edit-grid.full,
+app-planning .edit-grid.full {
+    display: block;
+}
+
+app-income .edit-grid.two-cols,
+app-expense .edit-grid.two-cols,
+app-planning .edit-grid.two-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+app-income .edit-grid.switch-grid,
+app-expense .edit-grid.switch-grid,
+app-planning .edit-grid.switch-grid {
+    border-top: 1px solid #e3e8ef;
+    padding-top: 1.2rem;
+}
+
+app-income .switch-field,
+app-expense .switch-field,
+app-planning .switch-field {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border: 1px solid #dce3ed;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+}
+
+app-income .switch-field label,
+app-expense .switch-field label,
+app-planning .switch-field label {
+    margin: 0;
+}
+
+app-income .edit-card-footer,
+app-expense .edit-card-footer,
+app-planning .edit-card-footer {
+    border-top: 1px solid #e3e8ef;
+    margin-top: 1.5rem;
+    padding: 1.2rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+app-income .footer-main-actions,
+app-expense .footer-main-actions,
+app-planning .footer-main-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+app-income .edit-card .p-inputtext,
+app-expense .edit-card .p-inputtext,
+app-planning .edit-card .p-inputtext,
+app-income .edit-card .p-dropdown,
+app-expense .edit-card .p-dropdown,
+app-planning .edit-card .p-dropdown,
+app-income .edit-card .p-inputnumber,
+app-expense .edit-card .p-inputnumber,
+app-planning .edit-card .p-inputnumber,
+app-income .edit-card .p-calendar,
+app-expense .edit-card .p-calendar,
+app-planning .edit-card .p-calendar,
+app-planning .edit-card .p-selectbutton {
+    width: 100%;
+}
+
+@media (max-width: 991px) {
+    app-income .edit-card-header,
+    app-expense .edit-card-header,
+    app-planning .edit-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    app-income .edit-grid.two-cols,
+    app-expense .edit-grid.two-cols,
+    app-planning .edit-grid.two-cols {
+        grid-template-columns: 1fr;
+    }
+
+    app-income .edit-card-footer,
+    app-expense .edit-card-footer,
+    app-planning .edit-card-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    app-income .footer-main-actions,
+    app-expense .footer-main-actions,
+    app-planning .footer-main-actions {
+        width: 100%;
+    }
+}
+
+

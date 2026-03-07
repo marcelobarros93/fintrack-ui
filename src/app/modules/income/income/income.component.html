@@ -1,189 +1,163 @@
-<div class="grid">
-  <div class="col-12">
-    <div class="card p-fluid">
-      <h5>
-        <i class="pi pi-fw pi-arrow-up" style="color: #689f38"></i>
-        Income
-        <p-tag
-          *ngIf="!isReceived()"
-          icon="pi pi-exclamation-triangle"
-          value="OPEN"
-          severity="danger"
-          [style]="{ 'margin-left': '5px' }"
+<section class="edit-screen income-edit">
+  <div class="edit-card">
+    <header class="edit-card-header">
+      <h1>{{ pageTitle }}</h1>
+      <span class="edit-status-pill" [ngClass]="statusClass">{{
+        statusLabel
+      }}</span>
+    </header>
+
+    <form
+      #incomeForm="ngForm"
+      class="edit-form"
+      autocomplete="off"
+      (ngSubmit)="save()"
+    >
+      <div class="edit-grid full">
+        <label for="description">Descrição</label>
+        <input
+          pInputText
+          [(ngModel)]="income.description"
+          required
+          minlength="3"
+          maxlength="100"
+          type="text"
+          name="description"
+          #description="ngModel"
+          class="w-full"
         />
-        <p-tag
-          *ngIf="isReceived()"
-          icon="pi pi-check"
-          value="RECEIVED"
-          severity="success"
-          [style]="{ 'margin-left': '5px' }"
-        />
-      </h5>
+        <app-input-message
+          [control]="description.control"
+          error="required"
+          text="Descrição obrigatoria"
+        ></app-input-message>
+        <app-input-message
+          [control]="description.control"
+          error="minlength"
+          text="Descrição deve ter no minimo 3 caracteres"
+        ></app-input-message>
+        <app-input-message
+          [control]="description.control"
+          error="maxlength"
+          text="Descrição deve ter no maximo 100 caracteres"
+        ></app-input-message>
+      </div>
 
-      <br />
-
-      <form #incomeForm="ngForm" autocomplete="off" (ngSubmit)="save()">
-        <div class="p-fluid p-formgrid grid">
-          <div class="field col-12 md:col-6">
-            <label for="description">Description</label>
-            <input
-              pInputText
-              [(ngModel)]="income.description"
-              required
-              minlength="3"
-              maxlength="100"
-              type="text"
-              name="description"
-              #description="ngModel"
-              class="inputfield w-full"
-            />
-            <app-input-message
-              [control]="description.control"
-              error="required"
-              text="Description is required"
-            ></app-input-message>
-            <app-input-message
-              [control]="description.control"
-              error="minlength"
-              text="Description must be at least 3 characters"
-            ></app-input-message>
-            <app-input-message
-              [control]="description.control"
-              error="maxlength"
-              text="Description can have a maximum of 100 characters"
-            ></app-input-message>
-          </div>
-
-          <div class="field col-12 md:col-2">
-            <label for="amount">Amount</label>
-            <p-inputNumber
-              [(ngModel)]="income.amount"
-              mode="currency"
-              currency="BRL"
-              name="amount"
-              #amount="ngModel"
-              class="inputfield w-full"
-              [required]="true"
-            >
-            </p-inputNumber>
-            <app-input-message
-              [control]="amount.control"
-              error="required"
-              text="Amount is required"
-            ></app-input-message>
-          </div>
-
-          <div class="field col-12 md:col-4">
-            <label for="category">Category</label>
-            <p-dropdown
-              [options]="categories"
-              [(ngModel)]="income.categoryId"
-              optionLabel="name"
-              optionValue="id"
-              name="active"
-              placeholder="Select a Category"
-              [filter]="true"
-              filterBy="name"
-              [showClear]="true"
-            ></p-dropdown>
-          </div>
-
-          <div class="field col-12 md:col-2">
-            <label for="dateDue">Date due</label>
-            <p-calendar
-              [iconDisplay]="'input'"
-              [(ngModel)]="income.dateDue"
-              dateFormat="dd/mm/yy"
-              [touchUI]="false"
-              [readonlyInput]="true"
-              name="dateDue"
-              #dateDue="ngModel"
-              [showIcon]="true"
-              [iconDisplay]="'input'"
-              [showButtonBar]="true"
-              [required]="true"
-            ></p-calendar>
-            <app-input-message
-              [control]="dateDue.control"
-              error="required"
-              text="Date due is required"
-            ></app-input-message>
-          </div>
-
-          <div class="field col-12 md:col-2" *ngIf="isReceived()">
-            <label for="dateReceipt">Date receipt</label>
-            <p-calendar
-              [iconDisplay]="'input'"
-              [(ngModel)]="income.dateReceipt"
-              dateFormat="dd/mm/yy"
-              [showTime]="true"
-              name="dateReceipt"
-              #dateReceipt="ngModel"
-              [required]="true"
-              [showIcon]="true"
-              [iconDisplay]="'input'"
-              [showButtonBar]="true"
-            ></p-calendar>
-            <app-input-message
-              [control]="dateReceipt.control"
-              error="required"
-              text="Date receipt is required when income is received"
-            ></app-input-message>
-          </div>
-
-          <div class="col-offset-8" *ngIf="!isReceived()"></div>
-          <div class="col-offset-6" *ngIf="isReceived()"></div>
-
-          <div class="field col-12 md:col-3">
-            <button
-              pButton
-              pRipple
-              (click)="save()"
-              icon="pi pi-save"
-              type="button"
-              label="Save"
-              class="p-button-rounded p-button-outlined p-button-secondary mr-2 mb-2"
-              [disabled]="!incomeForm.valid"
-            ></button>
-          </div>
-
-          <div class="field col-12 md:col-3" *ngIf="isReceivable()">
-            <button
-              pButton
-              pRipple
-              (click)="receive()"
-              icon="pi pi-dollar"
-              type="button"
-              label="Receive"
-              class="p-button-rounded p-button-outlined p-button-secondary mr-2 mb-2"
-            ></button>
-          </div>
-
-          <div class="field col-12 md:col-3" *ngIf="isCancelable()">
-            <button
-              pButton
-              pRipple
-              (click)="cancelReceipt()"
-              icon="pi pi-dollar"
-              type="button"
-              label="Cancel receipt"
-              class="p-button-rounded p-button-outlined p-button-secondary mr-2 mb-2"
-            ></button>
-          </div>
-
-          <div class="field col-12 md:col-3">
-            <button
-              pButton
-              pRipple
-              [routerLink]="['/income']"
-              icon="pi pi-times"
-              type="button"
-              label="Close"
-              class="p-button-rounded p-button-outlined p-button-secondary mr-2 mb-2"
-            ></button>
-          </div>
+      <div class="edit-grid two-cols">
+        <div>
+          <label for="amount">Valor</label>
+          <p-inputNumber
+            [(ngModel)]="income.amount"
+            mode="currency"
+            currency="BRL"
+            name="amount"
+            #amount="ngModel"
+            class="w-full"
+            [required]="true"
+          ></p-inputNumber>
+          <app-input-message
+            [control]="amount.control"
+            error="required"
+            text="Valor obrigatorio"
+          ></app-input-message>
         </div>
-      </form>
-    </div>
+
+        <div>
+          <label for="category">Categoria</label>
+          <p-dropdown
+            [options]="categories"
+            [(ngModel)]="income.categoryId"
+            optionLabel="name"
+            optionValue="id"
+            name="categoryId"
+            placeholder="Selecione a categoria"
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <div class="edit-grid two-cols">
+        <div>
+          <label for="dateDue">Data de vencimento</label>
+          <p-calendar
+            [(ngModel)]="income.dateDue"
+            dateFormat="dd/mm/yy"
+            [touchUI]="false"
+            [readonlyInput]="true"
+            name="dateDue"
+            #dateDue="ngModel"
+            [showIcon]="true"
+            [iconDisplay]="'input'"
+            [showButtonBar]="true"
+            [required]="true"
+          ></p-calendar>
+          <app-input-message
+            [control]="dateDue.control"
+            error="required"
+            text="Data de vencimento obrigatoria"
+          ></app-input-message>
+        </div>
+
+        <div *ngIf="isReceived()">
+          <label for="dateReceipt">Data de recebimento</label>
+          <p-calendar
+            [(ngModel)]="income.dateReceipt"
+            dateFormat="dd/mm/yy"
+            [showTime]="true"
+            name="dateReceipt"
+            #dateReceipt="ngModel"
+            [required]="true"
+            [showIcon]="true"
+            [iconDisplay]="'input'"
+            [showButtonBar]="true"
+          ></p-calendar>
+          <app-input-message
+            [control]="dateReceipt.control"
+            error="required"
+            text="Data de recebimento obrigatoria"
+          ></app-input-message>
+        </div>
+      </div>
+
+      <footer class="edit-card-footer">
+        <button
+          pButton
+          type="button"
+          label="Cancelar"
+          class="p-button-outlined"
+          [routerLink]="['/income']"
+        ></button>
+
+        <div class="footer-main-actions">
+          <button
+            pButton
+            type="submit"
+            icon="pi pi-check"
+            label="Salvar"
+            [disabled]="!incomeForm.valid"
+          ></button>
+          <button
+            pButton
+            type="button"
+            icon="pi pi-wallet"
+            label="Marcar como recebido"
+            class="p-button-outlined"
+            *ngIf="isReceivable()"
+            (click)="receive()"
+          ></button>
+          <button
+            pButton
+            type="button"
+            icon="pi pi-undo"
+            label="Cancelar recebimento"
+            class="p-button-outlined"
+            *ngIf="isCancelable()"
+            (click)="cancelReceipt()"
+          ></button>
+        </div>
+      </footer>
+    </form>
   </div>
-</div>
+</section>

@@ -15,32 +15,27 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputMessageComponent } from '../../shared/input-message/input-message.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
-import { TagModule } from 'primeng/tag';
-import { NgIf } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 
 @Component({
-    selector: 'app-expense',
-    templateUrl: './expense.component.html',
-    styleUrls: ['./expense.component.css'],
-    standalone: true,
-    imports: [
-        NgIf,
-        TagModule,
-        FormsModule,
-        InputTextModule,
-        InputMessageComponent,
-        InputNumberModule,
-        DropdownModule,
-        CalendarModule,
-        ButtonDirective,
-        RouterLink,
-    ],
+  selector: 'app-expense',
+  templateUrl: './expense.component.html',
+  styleUrls: ['./expense.component.css'],
+  standalone: true,
+  imports: [
+    NgIf,
+    NgClass,
+    FormsModule,
+    InputTextModule,
+    InputMessageComponent,
+    InputNumberModule,
+    DropdownModule,
+    CalendarModule,
+    ButtonDirective,
+    RouterLink,
+  ],
 })
 export class ExpenseComponent implements OnInit {
-  statusOptions = [
-    { label: 'OPEN', value: 'OPEN' },
-    { label: 'PAID', value: 'PAID' },
-  ];
   private id?: number;
   expense = new Expense();
   editing = false;
@@ -73,6 +68,18 @@ export class ExpenseComponent implements OnInit {
     }
   }
 
+  get pageTitle(): string {
+    return this.editing ? 'Editar despesa' : 'Nova despesa';
+  }
+
+  get statusLabel(): string {
+    return this.isPaid() ? 'Pago' : 'Pendente';
+  }
+
+  get statusClass(): string {
+    return this.isPaid() ? 'is-success' : 'is-warning';
+  }
+
   private findById(id: number) {
     this.expenseService.findById(id).subscribe({
       next: (result) => {
@@ -98,8 +105,8 @@ export class ExpenseComponent implements OnInit {
         this.convertDates(this.expense);
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'Saved successfully',
+          summary: 'Sucesso',
+          detail: 'Despesa salva com sucesso',
         });
       },
       error: (error) => this.onError(error),
@@ -111,8 +118,8 @@ export class ExpenseComponent implements OnInit {
       next: (result) => {
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'Saved successfully',
+          summary: 'Sucesso',
+          detail: 'Despesa salva com sucesso',
         });
         this.router.navigate(['/expense', result.id]);
       },
@@ -122,12 +129,12 @@ export class ExpenseComponent implements OnInit {
 
   pay(): void {
     this.expenseService.pay(this.id!).subscribe({
-      next: (result) => {
+      next: () => {
         this.findById(this.id!);
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'Paid successfully',
+          summary: 'Sucesso',
+          detail: 'Despesa marcada como paga',
         });
       },
       error: (error) => this.onError(error),
@@ -136,12 +143,12 @@ export class ExpenseComponent implements OnInit {
 
   cancelPayment(): void {
     this.expenseService.cancelPayment(this.id!).subscribe({
-      next: (result) => {
+      next: () => {
         this.findById(this.id!);
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'Payment canceled successfully',
+          summary: 'Sucesso',
+          detail: 'Pagamento cancelado com sucesso',
         });
       },
       error: (error) => this.onError(error),
@@ -169,9 +176,8 @@ export class ExpenseComponent implements OnInit {
   }
 
   private parseToDate(dateString: any) {
-    var dateParts = dateString.split('-');
-    var date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
-    return date;
+    const dateParts = dateString.split('-');
+    return new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
   }
 
   private onError(error: any): void {

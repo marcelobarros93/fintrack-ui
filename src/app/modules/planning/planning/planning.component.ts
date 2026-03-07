@@ -9,7 +9,7 @@ import {
   CategoryResponse,
   CategoryService,
 } from '../../category/category.service';
-import { NgIf } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import { ButtonDirective } from 'primeng/button';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { CalendarModule } from 'primeng/calendar';
@@ -20,29 +20,30 @@ import { InputMessageComponent } from '../../shared/input-message/input-message.
 import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
-    selector: 'app-planning',
-    templateUrl: './planning.component.html',
-    styleUrls: ['./planning.component.css'],
-    standalone: true,
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        InputTextModule,
-        InputMessageComponent,
-        InputNumberModule,
-        SelectButtonModule,
-        DropdownModule,
-        CalendarModule,
-        InputSwitchModule,
-        ButtonDirective,
-        RouterLink,
-        NgIf,
-    ],
+  selector: 'app-planning',
+  templateUrl: './planning.component.html',
+  styleUrls: ['./planning.component.css'],
+  standalone: true,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    InputTextModule,
+    InputMessageComponent,
+    InputNumberModule,
+    SelectButtonModule,
+    DropdownModule,
+    CalendarModule,
+    InputSwitchModule,
+    ButtonDirective,
+    RouterLink,
+    NgIf,
+    NgClass,
+  ],
 })
 export class PlanningComponent implements OnInit {
   typeOptions = [
-    { label: 'INCOME', value: 'INCOME' },
-    { label: 'EXPENSE', value: 'EXPENSE' },
+    { label: 'Receita', value: 'INCOME' },
+    { label: 'Despesa', value: 'EXPENSE' },
   ];
   planningForm!: FormGroup;
   private id?: number;
@@ -69,10 +70,22 @@ export class PlanningComponent implements OnInit {
     }
   }
 
+  get pageTitle(): string {
+    return this.editing ? 'Editar planejamento' : 'Novo planejamento';
+  }
+
+  get statusLabel(): string {
+    return this.planningForm?.get('active')?.value ? 'Ativo' : 'Inativo';
+  }
+
+  get statusClass(): string {
+    return this.planningForm?.get('active')?.value ? 'is-success' : 'is-warning';
+  }
+
   private findById(id: number) {
     this.planningService.findById(id).subscribe({
       next: (result) => {
-        let planning = result;
+        const planning = result;
         this.convertDates(planning);
         this.planningForm.patchValue(planning);
       },
@@ -87,8 +100,8 @@ export class PlanningComponent implements OnInit {
         this.planningForm.patchValue(result);
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'Saved successfully',
+          summary: 'Sucesso',
+          detail: 'Planejamento salvo com sucesso',
         });
       },
       error: (error) => this.onError(error),
@@ -100,8 +113,8 @@ export class PlanningComponent implements OnInit {
       next: (result) => {
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'Saved successfully',
+          summary: 'Sucesso',
+          detail: 'Planejamento salvo com sucesso',
         });
         this.router.navigate(['/planning', result.id]);
       },
@@ -120,10 +133,7 @@ export class PlanningComponent implements OnInit {
         ],
       ],
       amount: ['', [Validators.required, Validators.min(0.01)]],
-      dueDay: [
-        '',
-        [Validators.required, Validators.min(1), Validators.max(31)],
-      ],
+      dueDay: ['', [Validators.required, Validators.min(1), Validators.max(31)]],
       type: ['', Validators.required],
       startAt: ['', Validators.required],
       endAt: ['', Validators.required],
@@ -133,13 +143,13 @@ export class PlanningComponent implements OnInit {
     });
 
     this.planningForm.get('type')?.valueChanges.subscribe((value) => {
-      this.loadCategories(this.planningForm.get('type')?.value);
+      this.loadCategories(value);
       this.planningForm.get('categoryId')?.enable();
     });
   }
 
   save(): void {
-    let planning = this.planningForm.getRawValue() as Planning;
+    const planning = this.planningForm.getRawValue() as Planning;
 
     if (this.id) {
       this.update(this.id, planning);
@@ -158,9 +168,8 @@ export class PlanningComponent implements OnInit {
   }
 
   private parseToYearAndMonth(dateString: any) {
-    var dateParts = dateString.split('-');
-    var date = new Date(dateParts[0], dateParts[1] - 1);
-    return date;
+    const dateParts = dateString.split('-');
+    return new Date(dateParts[0], dateParts[1] - 1);
   }
 
   loadCategories(type: string) {

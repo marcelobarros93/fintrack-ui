@@ -1,218 +1,210 @@
-<div class="grid">
-  <div class="col-12">
-    <div class="card p-fluid">
-      <h5>
-        <i class="pi pi-fw pi-calendar"></i>
-        Planning
-      </h5>
+<section class="edit-screen planning-edit">
+  <div class="edit-card">
+    <header class="edit-card-header">
+      <h1>{{ pageTitle }}</h1>
+      <span class="edit-status-pill" [ngClass]="statusClass">{{
+        statusLabel
+      }}</span>
+    </header>
 
-      <br />
+    <form
+      [formGroup]="planningForm"
+      class="edit-form"
+      autocomplete="off"
+      (ngSubmit)="save()"
+    >
+      <div class="edit-grid full">
+        <label for="description">Descrição</label>
+        <input
+          formControlName="description"
+          pInputText
+          type="text"
+          name="description"
+          class="w-full"
+        />
+        <app-input-message
+          [control]="planningForm.get('description')"
+          error="required"
+          text="Descrição obrigatoria"
+        ></app-input-message>
+        <app-input-message
+          [control]="planningForm.get('description')"
+          error="minlength"
+          text="Descrição deve ter no minimo 3 caracteres"
+        ></app-input-message>
+        <app-input-message
+          [control]="planningForm.get('description')"
+          error="maxlength"
+          text="Descrição deve ter no maximo 100 caracteres"
+        ></app-input-message>
+      </div>
 
-      <form [formGroup]="planningForm" autocomplete="off" (ngSubmit)="save()">
-        <div class="p-fluid p-formgrid grid">
-          <div class="field col-12 md:col-4">
-            <label for="description">Description</label>
-            <input
-              formControlName="description"
-              pInputText
-              type="text"
-              name="description"
-              class="inputfield w-full"
-            />
-            <app-input-message
-              [control]="planningForm.get('description')"
-              error="required"
-              text="Description is required"
-            ></app-input-message>
-            <app-input-message
-              [control]="planningForm.get('description')"
-              error="minlength"
-              text="Description must be at least 3 characters"
-            ></app-input-message>
-            <app-input-message
-              [control]="planningForm.get('description')"
-              error="maxlength"
-              text="Description can have a maximum of 100 characters"
-            ></app-input-message>
-          </div>
-
-          <div class="field col-12 md:col-2">
-            <label for="amount">Amount</label>
-            <p-inputNumber
-              formControlName="amount"
-              mode="currency"
-              currency="BRL"
-              name="amount"
-              class="inputfield w-full"
-            >
-            </p-inputNumber>
-            <app-input-message
-              [control]="planningForm.get('amount')"
-              error="required"
-              text="Amount is required"
-            ></app-input-message>
-            <app-input-message
-              [control]="planningForm.get('amount')"
-              error="min"
-              text="Amount must be at least 0.01"
-            ></app-input-message>
-          </div>
-
-          <div class="field col-12 md:col-2">
-            <label for="type">Type</label>
-            <p-selectButton
-              formControlName="type"
-              [options]="typeOptions"
-              [multiple]="false"
-              optionLabel="label"
-              optionValue="value"
-              name="type"
-            ></p-selectButton>
-            <app-input-message
-              [control]="planningForm.get('type')"
-              error="required"
-              text="Type is required"
-            ></app-input-message>
-          </div>
-
-          <div class="field col-12 md:col-4">
-            <label for="category">Category</label>
-            <p-dropdown
-              [options]="categories"
-              formControlName="categoryId"
-              optionLabel="name"
-              optionValue="id"
-              name="active"
-              placeholder="Select a Category"
-              [filter]="true"
-              filterBy="name"
-              [showClear]="true"
-            ></p-dropdown>
-          </div>
-
-          <div class="field col-12 md:col-4">
-            <label for="dueDay">Due day</label>
-            <input
-              formControlName="dueDay"
-              pInputText
-              type="number"
-              name="dueDay"
-              class="inputfield w-full"
-            />
-            <app-input-message
-              [control]="planningForm.get('dueDay')"
-              error="required"
-              text="Due day is required"
-            ></app-input-message>
-            <app-input-message
-              [control]="planningForm.get('dueDay')"
-              error="min"
-              text="Due day cannot less than 1"
-            ></app-input-message>
-            <app-input-message
-              [control]="planningForm.get('dueDay')"
-              error="max"
-              text="Due day cannot greater than 31"
-            ></app-input-message>
-          </div>
-
-          <div class="field col-12 md:col-4">
-            <label for="startAt">Start at</label>
-            <p-calendar
-              [iconDisplay]="'input'"
-              formControlName="startAt"
-              dateFormat="mm/yy"
-              view="month"
-              name="startAt"
-              [showIcon]="true"
-              [showButtonBar]="true"
-            ></p-calendar>
-            <app-input-message
-              [control]="planningForm.get('startAt')"
-              error="required"
-              text="Start at is required"
-            ></app-input-message>
-          </div>
-
-          <div class="field col-12 md:col-4">
-            <label for="endAt">End at</label>
-            <p-calendar
-              [iconDisplay]="'input'"
-              formControlName="endAt"
-              dateFormat="mm/yy"
-              view="month"
-              name="endAt"
-              [showIcon]="true"
-              [showButtonBar]="true"
-            ></p-calendar>
-            <app-input-message
-              [control]="planningForm.get('endAt')"
-              error="required"
-              text="End at is required"
-            ></app-input-message>
-          </div>
-
-          <div class="field col-12 md:col-4">
-            <label for="active">Active</label>
-            <br />
-            <p-inputSwitch
-              formControlName="active"
-              name="active"
-              class="inputfield w-full"
-            ></p-inputSwitch>
-          </div>
-
-          <div class="field col-12 md:col-4">
-            <label for="showInstallmentsInBillName"
-              >Show installments in bill name</label
-            >
-            <br />
-            <p-inputSwitch
-              formControlName="showInstallmentsInBillName"
-              name="showInstallmentsInBillName"
-              class="inputfield w-full"
-            ></p-inputSwitch>
-          </div>
-
-          <div class="col-offset-4"></div>
-
-          <div class="field col-12 md:col-3">
-            <button
-              pButton
-              pRipple
-              icon="pi pi-save"
-              type="submit"
-              label="Save"
-              class="p-button-rounded p-button-outlined p-button-secondary mr-2 mb-2"
-              [disabled]="planningForm.invalid"
-            ></button>
-          </div>
-
-          <div class="field col-12 md:col-3">
-            <button
-              pButton
-              pRipple
-              [routerLink]="['/planning']"
-              icon="pi pi-times"
-              type="button"
-              label="Close"
-              class="p-button-rounded p-button-outlined p-button-secondary mr-2 mb-2"
-            ></button>
-          </div>
-
-          <div class="field col-12 md:col-3" *ngIf="editing">
-            <button
-              pButton
-              pRipple
-              [routerLink]="['/planning/new']"
-              icon="pi pi-plus"
-              type="button"
-              label="New"
-              class="p-button-rounded p-button-outlined p-button-secondary mr-2 mb-2"
-            ></button>
-          </div>
+      <div class="edit-grid two-cols">
+        <div>
+          <label for="amount">Valor</label>
+          <p-inputNumber
+            formControlName="amount"
+            mode="currency"
+            currency="BRL"
+            name="amount"
+            class="w-full"
+          ></p-inputNumber>
+          <app-input-message
+            [control]="planningForm.get('amount')"
+            error="required"
+            text="Valor obrigatorio"
+          ></app-input-message>
+          <app-input-message
+            [control]="planningForm.get('amount')"
+            error="min"
+            text="Valor deve ser maior que zero"
+          ></app-input-message>
         </div>
-      </form>
-    </div>
+
+        <div>
+          <label for="type">Tipo</label>
+          <p-selectButton
+            formControlName="type"
+            [options]="typeOptions"
+            [multiple]="false"
+            optionLabel="label"
+            optionValue="value"
+            name="type"
+          ></p-selectButton>
+          <app-input-message
+            [control]="planningForm.get('type')"
+            error="required"
+            text="Tipo obrigatorio"
+          ></app-input-message>
+        </div>
+      </div>
+
+      <div class="edit-grid two-cols">
+        <div>
+          <label for="category">Categoria</label>
+          <p-dropdown
+            [options]="categories"
+            formControlName="categoryId"
+            optionLabel="name"
+            optionValue="id"
+            name="categoryId"
+            placeholder="Selecione a categoria"
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+
+        <div>
+          <label for="dueDay">Dia de vencimento</label>
+          <input
+            formControlName="dueDay"
+            pInputText
+            type="number"
+            name="dueDay"
+            class="w-full"
+          />
+          <app-input-message
+            [control]="planningForm.get('dueDay')"
+            error="required"
+            text="Dia de vencimento obrigatorio"
+          ></app-input-message>
+          <app-input-message
+            [control]="planningForm.get('dueDay')"
+            error="min"
+            text="Dia deve ser no minimo 1"
+          ></app-input-message>
+          <app-input-message
+            [control]="planningForm.get('dueDay')"
+            error="max"
+            text="Dia deve ser no maximo 31"
+          ></app-input-message>
+        </div>
+      </div>
+
+      <div class="edit-grid two-cols">
+        <div>
+          <label for="startAt">Inicio</label>
+          <p-calendar
+            formControlName="startAt"
+            dateFormat="mm/yy"
+            view="month"
+            name="startAt"
+            [showIcon]="true"
+            [iconDisplay]="'input'"
+            [showButtonBar]="true"
+          ></p-calendar>
+          <app-input-message
+            [control]="planningForm.get('startAt')"
+            error="required"
+            text="Inicio obrigatorio"
+          ></app-input-message>
+        </div>
+
+        <div>
+          <label for="endAt">Fim</label>
+          <p-calendar
+            formControlName="endAt"
+            dateFormat="mm/yy"
+            view="month"
+            name="endAt"
+            [showIcon]="true"
+            [iconDisplay]="'input'"
+            [showButtonBar]="true"
+          ></p-calendar>
+          <app-input-message
+            [control]="planningForm.get('endAt')"
+            error="required"
+            text="Fim obrigatorio"
+          ></app-input-message>
+        </div>
+      </div>
+
+      <div class="edit-grid two-cols switch-grid">
+        <div class="switch-field">
+          <label for="active">Ativo</label>
+          <p-inputSwitch formControlName="active" name="active"></p-inputSwitch>
+        </div>
+
+        <div class="switch-field">
+          <label for="showInstallmentsInBillName"
+            >Mostrar parcelas no nome da conta</label
+          >
+          <p-inputSwitch
+            formControlName="showInstallmentsInBillName"
+            name="showInstallmentsInBillName"
+          ></p-inputSwitch>
+        </div>
+      </div>
+
+      <footer class="edit-card-footer">
+        <button
+          pButton
+          type="button"
+          label="Cancelar"
+          class="p-button-outlined"
+          [routerLink]="['/planning']"
+        ></button>
+
+        <div class="footer-main-actions">
+          <button
+            pButton
+            type="submit"
+            icon="pi pi-check"
+            label="Salvar"
+            [disabled]="planningForm.invalid"
+          ></button>
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            label="Novo"
+            class="p-button-outlined"
+            *ngIf="editing"
+            [routerLink]="['/planning/new']"
+          ></button>
+        </div>
+      </footer>
+    </form>
   </div>
-</div>
+</section>
