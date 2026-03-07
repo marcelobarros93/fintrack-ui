@@ -1,29 +1,40 @@
 .layout-topbar {
     position: fixed;
-    height: 5rem;
+    height: 5.75rem;
     z-index: 997;
     left: 0;
     top: 0;
     width: 100%;
     padding: 0 2rem;
-    background-color: var(--surface-card);
+    background-color: #ffffff;
+    border-bottom: 1px solid #dce3ed;
     transition: left $transitionDuration;
     display: flex;
     align-items: center;
-    box-shadow: 0px 3px 5px rgba(0,0,0,.02), 0px 0px 2px rgba(0,0,0,.05), 0px 1px 4px rgba(0,0,0,.08);
 
     .layout-topbar-logo {
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        color: var(--surface-900);
-        font-size: 1.5rem;
-        font-weight: 500;
-        width: 300px;
-        border-radius: 12px;
+        gap: 0.85rem;
+        color: #111827;
+        width: 270px;
 
-        img {
-            height: 2.5rem;
-            margin-right: .5rem;
+        .layout-topbar-logo-mark {
+            width: 2.9rem;
+            height: 2.9rem;
+            border-radius: 0.9rem;
+            background: linear-gradient(135deg, #55b4ff, #2f6fed);
+            color: #ffffff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .layout-topbar-logo-text {
+            font-size: 2rem;
+            letter-spacing: 0.04em;
+            font-weight: 700;
         }
 
         &:focus {
@@ -36,16 +47,16 @@
         justify-content: center;
         align-items: center;
         position: relative;
-        color: var(--text-color-secondary);
-        border-radius: 50%;
-        width: 3rem;
-        height: 3rem;
+        color: #64748b;
+        border-radius: 0.75rem;
+        width: 2.75rem;
+        height: 2.75rem;
         cursor: pointer;
-        transition: background-color $transitionDuration;
+        transition: background-color $transitionDuration, color $transitionDuration;
 
         &:hover {
-            color: var(--text-color);
-            background-color: var(--surface-hover);
+            color: #1f2937;
+            background-color: #f1f5f9;
         }
 
         &:focus {
@@ -53,7 +64,7 @@
         }
 
         i {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
         }
 
         span {
@@ -63,14 +74,14 @@
     }
 
     .layout-menu-button {
-        margin-left: 2rem;
+        margin-left: 0.5rem;
     }
 
     .layout-topbar-menu-button {
         display: none;
 
         i {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
         }
     }
 
@@ -79,10 +90,20 @@
         padding: 0;
         list-style: none;
         display: flex;
+        align-items: center;
+        gap: 0.6rem;
+    }
 
-        .layout-topbar-button {
-            margin-left: 1rem;
-        }
+    .layout-topbar-avatar {
+        border: 0;
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 999px;
+        background: #e2e8f0;
+        color: #0f172a;
+        font-size: 0.9rem;
+        font-weight: 700;
+        cursor: pointer;
     }
 }
 
@@ -93,6 +114,10 @@
         .layout-topbar-logo {
             width: auto;
             order: 2;
+
+            .layout-topbar-logo-text {
+                font-size: 1.35rem;
+            }
         }
 
         .layout-menu-button {
@@ -110,19 +135,18 @@
             margin-left: 0;
             position: absolute;
             flex-direction: column;
-            background-color: var(--surface-overlay);
-            box-shadow: 0px 3px 5px rgba(0,0,0,.02), 0px 0px 2px rgba(0,0,0,.05), 0px 1px 4px rgba(0,0,0,.08);
-            border-radius: 12px;
-            padding: 1rem;
-            right: 2rem;
+            background-color: #ffffff;
+            border: 1px solid #dce3ed;
+            border-radius: 0.9rem;
+            padding: 0.75rem;
+            right: 1rem;
             top: 5rem;
-            min-width: 15rem;
+            min-width: 12rem;
             display: none;
-            -webkit-animation: scalein 0.15s linear;
             animation: scalein 0.15s linear;
 
             &.layout-topbar-menu-mobile-active {
-                display: block
+                display: flex;
             }
 
             .layout-topbar-button {
@@ -131,16 +155,16 @@
                 width: 100%;
                 height: auto;
                 justify-content: flex-start;
-                border-radius: 12px;
-                padding: 1rem;
+                border-radius: 0.7rem;
+                padding: 0.8rem;
 
                 i {
                     font-size: 1rem;
-                    margin-right: .5rem;
+                    margin-right: 0.5rem;
                 }
 
                 span {
-                    font-weight: medium;
+                    font-weight: 500;
                     display: block;
                 }
             }

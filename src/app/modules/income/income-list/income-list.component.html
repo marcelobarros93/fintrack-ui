@@ -1,204 +1,153 @@
 <p-confirmPopup></p-confirmPopup>
 
-<div class="grid">
-  <div class="col-12">
-    <div class="card p-fluid">
-      <h5>
-        <i class="pi pi-fw pi-arrow-up" style="color: #689f38"></i>
-        Incomes
-      </h5>
-
-      <form autocomplete="off" (ngSubmit)="findByFilter()">
-        <p-panel
-          header="Search engine"
-          [toggleable]="true"
-          iconPos="start"
-          expandIcon="pi pi-angle-down"
-          collapseIcon="pi pi-angle-right"
-          [collapsed]="true"
-        >
-          <div class="p-fluid p-formgrid grid">
-            <div class="field col-12 md:col-6">
-              <label for="description">Description</label>
-              <input
-                pInputText
-                [(ngModel)]="filter.description"
-                type="text"
-                name="description"
-                class="inputfield w-full"
-              />
-            </div>
-
-            <div class="field col-12 md:col-6">
-              <label for="status">Status</label>
-              <p-selectButton
-                [(ngModel)]="filter.status"
-                [options]="statusOptions"
-                [multiple]="true"
-                optionLabel="label"
-                optionValue="value"
-                name="status"
-              ></p-selectButton>
-            </div>
-
-            <div class="field col-12 md:col-6">
-              <label for="dateDueStart">Date due start</label>
-              <p-calendar
-                [iconDisplay]="'input'"
-                [(ngModel)]="filter.dateDueStart"
-                dateFormat="dd/mm/yy"
-                name="dateDueStart"
-                [showIcon]="true"
-                [showButtonBar]="true"
-              ></p-calendar>
-            </div>
-
-            <div class="field col-12 md:col-6">
-              <label for="dateDueEnd">Date due end</label>
-              <p-calendar
-                [iconDisplay]="'input'"
-                [(ngModel)]="filter.dateDueEnd"
-                dateFormat="dd/mm/yy"
-                name="dateDueEnd"
-                [showIcon]="true"
-                [showButtonBar]="true"
-              ></p-calendar>
-            </div>
-
-            <div class="field col-12 md:col-3">
-              <button
-                pButton
-                pRipple
-                (click)="findByFilter()"
-                icon="pi pi-search"
-                type="button"
-                label="Search"
-                class="p-button-rounded p-button-outlined p-button-secondary mr-2 mb-2"
-              ></button>
-            </div>
-
-            <div class="field col-12 md:col-3">
-              <button
-                pButton
-                pRipple
-                (click)="cleanFilters()"
-                icon="pi pi-times"
-                type="button"
-                label="Clean"
-                class="p-button-rounded p-button-outlined p-button-secondary mr-2 mb-2"
-              ></button>
-            </div>
-          </div>
-        </p-panel>
-      </form>
-
-      <br />
-
-      <p-table
-        [value]="incomes"
-        [resizableColumns]="true"
-        [paginator]="true"
-        [rows]="10"
-        [showCurrentPageReport]="true"
-        [rowsPerPageOptions]="[10, 25, 50]"
-        [lazy]="true"
-        (onLazyLoad)="onLazyLoad($event)"
-        [loading]="loading"
-        [totalRecords]="totalRecords"
-        styleClass="p-datatable-gridlines p-datatable-striped"
-        responsiveLayout="stack"
-      >
-        <ng-template pTemplate="header">
-          <tr>
-            <th scope="col"></th>
-            <th pResizableColumn scope="col">Status</th>
-            <th pResizableColumn scope="col">Description</th>
-            <th pResizableColumn scope="col">Amount</th>
-            <th pResizableColumn scope="col">Date due</th>
-            <th pResizableColumn scope="col">Date receipt</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-income>
-          <tr>
-            <td style="width: 5%">
-              <div class="flex">
-                <button
-                  pButton
-                  pRipple
-                  pTooltip="Edit"
-                  [routerLink]="['/income', income.id]"
-                  icon="pi pi-pencil"
-                  class="p-button-rounded p-button-outlined p-button-secondary mr-2 button-icon"
-                ></button>
-                <button
-                  pButton
-                  pRipple
-                  pTooltip="Receive"
-                  *ngIf="income.status === 'OPEN'"
-                  (click)="receive(income.id)"
-                  icon="pi pi-dollar"
-                  class="p-button-rounded p-button-outlined p-button-secondary mr-2 button-icon"
-                ></button>
-                <button
-                  pButton
-                  pRipple
-                  pTooltip="Delete"
-                  (click)="delete($event, income.id)"
-                  icon="pi pi-trash"
-                  class="p-button-rounded p-button-outlined p-button-secondary button-icon"
-                ></button>
-              </div>
-            </td>
-            <td style="width: 5%">
-              <span class="p-column-title">Status:</span>
-              <p-tag
-                *ngIf="income.status === 'OPEN'"
-                [rounded]="true"
-                severity="danger"
-                value="{{ income.status }}"
-              ></p-tag>
-              <p-tag
-                *ngIf="income.status === 'RECEIVED'"
-                [rounded]="true"
-                severity="success"
-                value="{{ income.status }}"
-              ></p-tag>
-            </td>
-            <td>
-              <span class="p-column-title">Description:</span>
-              {{ income.description }}
-            </td>
-            <td>
-              <span class="p-column-title">Amount:</span>
-              {{ income.amount | currency }}
-            </td>
-            <td>
-              <span class="p-column-title">Date due:</span>
-              {{ income.dateDue | date: "dd/MM/yyyy" }}
-            </td>
-            <td>
-              <span class="p-column-title">Date receipt:</span>
-              {{ income.dateReceipt | date: "dd/MM/yyyy HH:mm" }}
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-
-      <br />
-
-      <div class="p-fluid p-formgrid grid">
-        <div class="field col-12 md:col-3">
-          <button
-            pButton
-            pRipple
-            [routerLink]="['new']"
-            icon="pi pi-plus"
-            type="button"
-            label="New"
-            class="p-button-rounded p-button-outlined p-button-secondary mr-2 mb-2"
-          ></button>
-        </div>
-      </div>
+<section class="income-page">
+  <header class="income-header">
+    <div>
+      <h1>Receitas</h1>
+      <p>Controle das contas a receber</p>
     </div>
+
+    <button
+      pButton
+      type="button"
+      icon="pi pi-plus"
+      label="Nova receita"
+      [routerLink]="['new']"
+      class="new-income-button"
+    ></button>
+  </header>
+
+  <section class="summary-grid">
+    <article class="summary-card received">
+      <div class="summary-icon"><i class="pi pi-check"></i></div>
+      <div>
+        <strong>Recebido</strong>
+        <h3>{{ formatCurrency(receivedTotal) }}</h3>
+        <p>{{ receivedCount }} lançamento(s)</p>
+      </div>
+    </article>
+
+    <article class="summary-card pending">
+      <div class="summary-icon"><i class="pi pi-wallet"></i></div>
+      <div>
+        <strong>A receber</strong>
+        <h3>{{ formatCurrency(pendingTotal) }}</h3>
+        <p>{{ pendingCount }} lançamento(s)</p>
+      </div>
+    </article>
+
+    <article class="summary-card overdue">
+      <div class="summary-icon"><i class="pi pi-times"></i></div>
+      <div>
+        <strong>Atrasado</strong>
+        <h3>{{ formatCurrency(overdueTotal) }}</h3>
+        <p>{{ overdueCount }} lançamento(s)</p>
+      </div>
+    </article>
+  </section>
+
+  <form class="filter-toolbar" (ngSubmit)="applyFilters()" autocomplete="off">
+    <div class="search-box">
+      <i class="pi pi-search"></i>
+      <input
+        pInputText
+        type="text"
+        name="description"
+        placeholder="Buscar receita..."
+        [(ngModel)]="descriptionFilter"
+      />
+    </div>
+
+    <p-dropdown
+      [options]="statusOptions"
+      [(ngModel)]="selectedStatus"
+      name="status"
+      optionLabel="label"
+      optionValue="value"
+      placeholder="Status"
+      styleClass="toolbar-dropdown"
+      (onChange)="applyFilters()"
+    ></p-dropdown>
+
+    <p-dropdown
+      [options]="periodOptions"
+      [(ngModel)]="selectedPeriod"
+      name="period"
+      optionLabel="label"
+      optionValue="value"
+      styleClass="toolbar-dropdown"
+      (onChange)="applyFilters()"
+    ></p-dropdown>
+
+    <button
+      pButton
+      type="button"
+      label="Limpar"
+      class="p-button-outlined clear-button"
+      (click)="cleanFilters()"
+    ></button>
+  </form>
+
+  <div class="table-shell">
+    <p-table
+      [value]="incomes"
+      [lazy]="true"
+      (onLazyLoad)="onLazyLoad($event)"
+      [loading]="loading"
+      [totalRecords]="totalRecords"
+      [paginator]="true"
+      [rows]="currentRows"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando {first} - {last} de {totalRecords}"
+      styleClass="income-table"
+      responsiveLayout="scroll"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Descrição</th>
+          <th class="col-value">Valor</th>
+          <th class="col-date">Vencimento</th>
+          <th class="col-status">Status</th>
+          <th class="col-actions"></th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-income>
+        <tr>
+          <td>{{ income.description }}</td>
+          <td class="col-value">{{ formatCurrency(income.amount) }}</td>
+          <td class="col-date">{{ income.dateDue | date: "dd/MM/yyyy" }}</td>
+          <td class="col-status">
+            <span class="status-pill" [ngClass]="statusClass(income)">{{
+              statusLabel(income)
+            }}</span>
+          </td>
+          <td class="col-actions">
+            <button
+              pButton
+              type="button"
+              icon="pi pi-ellipsis-h"
+              class="p-button-text action-toggle"
+              (click)="openActions(actionsMenu, $event, income)"
+            ></button>
+            <p-menu
+              #actionsMenu
+              [popup]="true"
+              [model]="actionMenuItems"
+              appendTo="body"
+            ></p-menu>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="5" class="empty-state">
+            Nenhuma receita encontrada para os filtros selecionados.
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
-</div>
+</section>

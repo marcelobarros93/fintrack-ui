@@ -1,18 +1,17 @@
 import { Component, OnDestroy, Renderer2, ViewChild } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
-import { LayoutService } from "./service/app.layout.service";
-import { AppSidebarComponent } from "./app.sidebar.component";
+import { LayoutService } from './service/app.layout.service';
+import { AppSidebarComponent } from './app.sidebar.component';
 import { AppTopBarComponent } from './app.topbar.component';
 import { AppConfigComponent } from './config/app.config.component';
-import { AppFooterComponent } from './app.footer.component';
 import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-layout',
     templateUrl: './app.layout.component.html',
     standalone: true,
-    imports: [NgClass, AppTopBarComponent, AppSidebarComponent, RouterOutlet, AppFooterComponent, AppConfigComponent]
+    imports: [NgClass, AppTopBarComponent, AppSidebarComponent, RouterOutlet, AppConfigComponent]
 })
 export class AppLayoutComponent implements OnDestroy {
 
@@ -113,7 +112,7 @@ export class AppLayoutComponent implements OnDestroy {
             'layout-mobile-active': this.layoutService.state.staticMenuMobileActive,
             'p-input-filled': this.layoutService.config.inputStyle === 'filled',
             'p-ripple-disabled': !this.layoutService.config.ripple
-        }
+        };
     }
 
     ngOnDestroy() {

@@ -1,250 +1,166 @@
 <p-confirmPopup></p-confirmPopup>
 
-<div class="grid">
-  <div class="col-12">
-    <div class="card p-fluid">
-      <h5>
-        <i class="pi pi-fw pi-calendar"></i>
-        Plannings
-      </h5>
-
-      <form autocomplete="off" (ngSubmit)="findByFilter()">
-        <p-panel
-          header="Search engine"
-          [toggleable]="true"
-          iconPos="start"
-          expandIcon="pi pi-angle-down"
-          collapseIcon="pi pi-angle-right"
-          [collapsed]="true"
-        >
-          <div class="p-fluid p-formgrid grid">
-            <div class="field col-12 md:col-6">
-              <label for="description">Description</label>
-              <input
-                pInputText
-                [(ngModel)]="filter.description"
-                type="text"
-                name="description"
-                class="inputfield w-full"
-              />
-            </div>
-
-            <div class="field col-12 md:col-6">
-              <label for="status">Type</label>
-              <p-selectButton
-                [(ngModel)]="filter.type"
-                [options]="typeOptions"
-                [multiple]="true"
-                optionLabel="label"
-                optionValue="value"
-                name="type"
-              ></p-selectButton>
-            </div>
-
-            <div class="field col-12 md:col-6">
-              <label for="startAtStart">Start at start</label>
-              <p-calendar
-                [iconDisplay]="'input'"
-                [(ngModel)]="filter.startAtStart"
-                dateFormat="mm/yy"
-                view="month"
-                name="startAtStart"
-                [showIcon]="true"
-                [showButtonBar]="true"
-              ></p-calendar>
-            </div>
-
-            <div class="field col-12 md:col-6">
-              <label for="startAtEnd">Start at end</label>
-              <p-calendar
-                [iconDisplay]="'input'"
-                [(ngModel)]="filter.startAtEnd"
-                dateFormat="mm/yy"
-                view="month"
-                name="startAtEnd"
-                [showIcon]="true"
-                [showButtonBar]="true"
-              ></p-calendar>
-            </div>
-
-            <div class="field col-12 md:col-6">
-              <label for="endAtStart">End at start</label>
-              <p-calendar
-                [iconDisplay]="'input'"
-                [(ngModel)]="filter.endAtStart"
-                dateFormat="mm/yy"
-                view="month"
-                name="endAtStart"
-                [showIcon]="true"
-                [showButtonBar]="true"
-              ></p-calendar>
-            </div>
-
-            <div class="field col-12 md:col-6">
-              <label for="endAtEnd">End at end</label>
-              <p-calendar
-                [iconDisplay]="'input'"
-                [(ngModel)]="filter.endAtEnd"
-                dateFormat="mm/yy"
-                view="month"
-                name="endAtEnd"
-                [showIcon]="true"
-                [showButtonBar]="true"
-              ></p-calendar>
-            </div>
-
-            <div class="field col-12 md:col-6">
-              <label for="dueDay">Due day</label>
-              <input
-                pInputText
-                [(ngModel)]="filter.dueDay"
-                type="number"
-                name="dueDay"
-                class="inputfield w-full"
-              />
-            </div>
-
-            <div class="field col-12 md:col-6">
-              <label for="active">Active</label>
-              <p-dropdown
-                [options]="activeOptions"
-                [(ngModel)]="filter.active"
-                optionLabel="label"
-                optionValue="value"
-                name="active"
-              ></p-dropdown>
-            </div>
-
-            <div class="field col-12 md:col-3">
-              <button
-                pButton
-                pRipple
-                (click)="findByFilter()"
-                icon="pi pi-search"
-                type="button"
-                label="Search"
-                class="p-button-rounded p-button-outlined p-button-secondary mr-2 mb-2"
-              ></button>
-            </div>
-
-            <div class="field col-12 md:col-3">
-              <button
-                pButton
-                pRipple
-                (click)="cleanFilters()"
-                icon="pi pi-times"
-                type="button"
-                label="Clean"
-                class="p-button-rounded p-button-outlined p-button-secondary mr-2 mb-2"
-              ></button>
-            </div>
-          </div>
-        </p-panel>
-      </form>
-
-      <br />
-
-      <p-table
-        [value]="plannings"
-        [resizableColumns]="true"
-        [paginator]="true"
-        [rows]="10"
-        [showCurrentPageReport]="true"
-        [rowsPerPageOptions]="[10, 25, 50]"
-        [lazy]="true"
-        (onLazyLoad)="onLazyLoad($event)"
-        [loading]="loading"
-        [totalRecords]="totalRecords"
-        styleClass="p-datatable-gridlines p-datatable-striped"
-        responsiveLayout="stack"
-      >
-        <ng-template pTemplate="header">
-          <tr>
-            <th scope="col"></th>
-            <th pResizableColumn scope="col">Type</th>
-            <th pResizableColumn scope="col">Description</th>
-            <th pResizableColumn scope="col">Amount</th>
-            <th pResizableColumn scope="col">Due day</th>
-            <th pResizableColumn scope="col">Start at</th>
-            <th pResizableColumn scope="col">End at</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-planning>
-          <tr>
-            <td style="width: 5%">
-              <div class="flex">
-                <button
-                  pButton
-                  pRipple
-                  pTooltip="Edit"
-                  [routerLink]="['/planning', planning.id]"
-                  icon="pi pi-pencil"
-                  class="p-button-rounded p-button-outlined p-button-secondary mr-2 button-icon"
-                ></button>
-                <button
-                  pButton
-                  pRipple
-                  pTooltip="Delete"
-                  (click)="delete($event, planning.id)"
-                  icon="pi pi-trash"
-                  class="p-button-rounded p-button-outlined p-button-secondary button-icon"
-                ></button>
-              </div>
-            </td>
-            <td style="width: 5%">
-              <span class="p-column-title">Type:</span>
-              <p-tag
-                *ngIf="planning.type == 'EXPENSE'"
-                [rounded]="true"
-                severity="danger"
-                value="{{ planning.type }}"
-              ></p-tag>
-              <p-tag
-                *ngIf="planning.type == 'INCOME'"
-                [rounded]="true"
-                severity="success"
-                value="{{ planning.type }}"
-              ></p-tag>
-            </td>
-            <td>
-              <span class="p-column-title">Description:</span>
-              {{ planning.description }}
-            </td>
-            <td>
-              <span class="p-column-title">Amount:</span>
-              {{ planning.amount | currency }}
-            </td>
-            <td>
-              <span class="p-column-title">Due day:</span>
-              {{ planning.dueDay }}
-            </td>
-            <td>
-              <span class="p-column-title">Start at:</span>
-              {{ planning.startAt | date: "MM/yyyy" }}
-            </td>
-            <td>
-              <span class="p-column-title">End at:</span>
-              {{ planning.endAt | date: "MM/yyyy" }}
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-
-      <br />
-
-      <div class="p-fluid p-formgrid grid">
-        <div class="field col-12 md:col-3">
-          <button
-            pButton
-            pRipple
-            [routerLink]="['new']"
-            icon="pi pi-plus"
-            type="button"
-            label="New"
-            class="p-button-rounded p-button-outlined p-button-secondary mr-2 mb-2"
-          ></button>
-        </div>
-      </div>
+<section class="planning-page">
+  <header class="planning-header">
+    <div>
+      <h1>Planejamento</h1>
+      <p>Controle dos lançamentos recorrentes</p>
     </div>
+
+    <button
+      pButton
+      type="button"
+      icon="pi pi-plus"
+      label="Novo planejamento"
+      [routerLink]="['new']"
+      class="new-planning-button"
+    ></button>
+  </header>
+
+  <section class="summary-grid">
+    <article class="summary-card income">
+      <div class="summary-icon"><i class="pi pi-arrow-up"></i></div>
+      <div>
+        <strong>Receitas planejadas</strong>
+        <h3>{{ formatCurrency(incomeTotal) }}</h3>
+        <p>{{ incomeCount }} lançamento(s)</p>
+      </div>
+    </article>
+
+    <article class="summary-card expense">
+      <div class="summary-icon"><i class="pi pi-arrow-down"></i></div>
+      <div>
+        <strong>Despesas planejadas</strong>
+        <h3>{{ formatCurrency(expenseTotal) }}</h3>
+        <p>{{ expenseCount }} lançamento(s)</p>
+      </div>
+    </article>
+
+    <article class="summary-card inactive">
+      <div class="summary-icon"><i class="pi pi-ban"></i></div>
+      <div>
+        <strong>Inativos</strong>
+        <h3>{{ inactiveCount }}</h3>
+        <p>{{ activeCount }} ativo(s)</p>
+      </div>
+    </article>
+  </section>
+
+  <form class="filter-toolbar" (ngSubmit)="applyFilters()" autocomplete="off">
+    <div class="search-box">
+      <i class="pi pi-search"></i>
+      <input
+        pInputText
+        type="text"
+        name="description"
+        placeholder="Buscar planejamento..."
+        [(ngModel)]="descriptionFilter"
+      />
+    </div>
+
+    <p-dropdown
+      [options]="typeOptions"
+      [(ngModel)]="selectedType"
+      name="type"
+      optionLabel="label"
+      optionValue="value"
+      styleClass="toolbar-dropdown"
+    ></p-dropdown>
+
+    <p-dropdown
+      [options]="activeOptions"
+      [(ngModel)]="selectedActive"
+      name="active"
+      optionLabel="label"
+      optionValue="value"
+      styleClass="toolbar-dropdown"
+    ></p-dropdown>
+
+    <button
+      pButton
+      type="button"
+      label="Limpar"
+      class="p-button-outlined clear-button"
+      (click)="cleanFilters()"
+    ></button>
+  </form>
+
+  <div class="table-shell">
+    <p-table
+      [value]="plannings"
+      [lazy]="true"
+      (onLazyLoad)="onLazyLoad($event)"
+      [loading]="loading"
+      [totalRecords]="totalRecords"
+      [paginator]="true"
+      [rows]="currentRows"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando {first}�{last} de {totalRecords}"
+      styleClass="planning-table"
+      responsiveLayout="scroll"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Descrição</th>
+          <th class="col-value">Valor</th>
+          <th class="col-day">Dia venc.</th>
+          <th class="col-date">Inicio</th>
+          <th class="col-date">Fim</th>
+          <th class="col-type">Tipo</th>
+          <th class="col-status">Status</th>
+          <th class="col-actions"></th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-planning>
+        <tr>
+          <td>{{ planning.description }}</td>
+          <td class="col-value">{{ formatCurrency(planning.amount) }}</td>
+          <td class="col-day">{{ planning.dueDay }}</td>
+          <td class="col-date">{{ planning.startAt | date: "MM/yyyy" }}</td>
+          <td class="col-date">{{ planning.endAt | date: "MM/yyyy" }}</td>
+          <td class="col-type">
+            <span
+              class="type-pill"
+              [ngClass]="
+                planning.type === 'INCOME' ? 'is-income' : 'is-expense'
+              "
+              >{{ planning.type === "INCOME" ? "Receita" : "Despesa" }}</span
+            >
+          </td>
+          <td class="col-status">
+            <span
+              class="status-pill"
+              [ngClass]="planning.active ? 'is-received' : 'is-overdue'"
+              >{{ planning.active ? "Ativo" : "Inativo" }}</span
+            >
+          </td>
+          <td class="col-actions">
+            <button
+              pButton
+              type="button"
+              icon="pi pi-ellipsis-h"
+              class="p-button-text action-toggle"
+              (click)="openActions(actionsMenu, $event, planning)"
+            ></button>
+            <p-menu
+              #actionsMenu
+              [popup]="true"
+              [model]="actionMenuItems"
+              appendTo="body"
+            ></p-menu>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="8" class="empty-state">
+            Nenhum planejamento encontrado para os filtros selecionados.
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
-</div>
+</section>

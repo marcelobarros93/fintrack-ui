@@ -1,1 +1,12 @@
- <app-menu></app-menu>
+<div class="layout-sidebar-inner">
+  <app-menu></app-menu>
+
+  <button
+    class="p-link sidebar-settings-button"
+    type="button"
+    aria-label="Configurações"
+    (click)="layoutService.showConfigSidebar()"
+  >
+    <i class="pi pi-cog"></i>
+  </button>
+</div>

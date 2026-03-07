@@ -1,111 +1,283 @@
-import { ConfirmationService, LazyLoadEvent, MessageService, PrimeTemplate } from 'primeng/api';
-import { IncomeFilter, IncomeService } from './../income.service';
-import { Income } from './../income';
+import { CurrencyPipe, DatePipe, NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { ButtonDirective } from 'primeng/button';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputTextModule } from 'primeng/inputtext';
+import { Menu, MenuModule } from 'primeng/menu';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { ErrorHandlerService } from '../../core/error-handler.service';
-import { TagModule } from 'primeng/tag';
-import { NgIf, CurrencyPipe, DatePipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { TooltipModule } from 'primeng/tooltip';
-import { ButtonDirective } from 'primeng/button';
-import { CalendarModule } from 'primeng/calendar';
-import { SelectButtonModule } from 'primeng/selectbutton';
-import { InputTextModule } from 'primeng/inputtext';
-import { PanelModule } from 'primeng/panel';
-import { FormsModule } from '@angular/forms';
-import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { Income } from '../income';
+import { IncomeFilter, IncomeService } from '../income.service';
+
+interface SelectOption {
+  label: string;
+  value: string;
+}
 
 @Component({
-    selector: 'app-income-list',
-    templateUrl: './income-list.component.html',
-    styleUrls: ['./income-list.component.css'],
-    standalone: true,
-    imports: [
-        ConfirmPopupModule,
-        FormsModule,
-        PanelModule,
-        InputTextModule,
-        SelectButtonModule,
-        CalendarModule,
-        ButtonDirective,
-        TableModule,
-        PrimeTemplate,
-        TooltipModule,
-        RouterLink,
-        NgIf,
-        TagModule,
-        CurrencyPipe,
-        DatePipe,
-    ],
+  selector: 'app-income-list',
+  templateUrl: './income-list.component.html',
+  styleUrls: ['./income-list.component.css'],
+  standalone: true,
+  imports: [
+    ConfirmPopupModule,
+    FormsModule,
+    InputTextModule,
+    DropdownModule,
+    ButtonDirective,
+    TableModule,
+    MenuModule,
+    RouterLink,
+    DatePipe,
+    CurrencyPipe,
+    NgClass,
+  ],
 })
 export class IncomeListComponent implements OnInit {
-  statusOptions = [
-    { label: 'OPEN', value: 'OPEN' },
-    { label: 'RECEIVED', value: 'RECEIVED' },
-  ];
   incomes: Income[] = [];
-  filter: IncomeFilter = {};
-  totalRecords: number = 0;
-  loading: boolean = false;
+  totalRecords = 0;
+  loading = false;
+  currentRows = 10;
+
+  descriptionFilter = '';
+  selectedStatus = 'ALL';
+  selectedPeriod = 'LAST_12_MONTHS';
+
+  statusOptions: SelectOption[] = [
+    { label: 'Todos os status', value: 'ALL' },
+    { label: 'Pendente', value: 'OPEN' },
+    { label: 'Recebido', value: 'RECEIVED' },
+  ];
+
+  periodOptions: SelectOption[] = [
+    { label: 'Ultimos 12 meses', value: 'LAST_12_MONTHS' },
+    { label: 'Este mes', value: 'THIS_MONTH' },
+    { label: 'Todo periodo', value: 'ALL_TIME' },
+  ];
+
+  actionMenuItems: MenuItem[] = [];
+
+  receivedTotal = 0;
+  pendingTotal = 0;
+  overdueTotal = 0;
+
+  receivedCount = 0;
+  pendingCount = 0;
+  overdueCount = 0;
+
+  private filter: IncomeFilter = {};
 
   constructor(
     private incomeService: IncomeService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
-    private errorHandlingService: ErrorHandlerService
+    private errorHandlingService: ErrorHandlerService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.loading = true;
-    var now = new Date();
-    var year = now.getFullYear();
-    var month = now.getMonth();
-
-    this.filter.dateDueStart = new Date(year, month, 1);
-    this.filter.dateDueEnd = new Date(year, month + 1, 0);
-  }
-
-  findByFilter(page: number = 0, size: number = 10) {
-    this.filter.page = page;
-    this.filter.size = size;
-    this.loading = true;
-    this.incomeService.findByFilter(this.filter).subscribe(
-      (result) => {
-        this.incomes = result.content;
-        this.totalRecords = result.page.totalElements;
-        this.loading = false;
-      },
-      (error) => {
-        this.loading = false;
-        this.onError(error);
-      }
-    );
+    this.applyPeriodToFilter();
   }
 
   onLazyLoad(event: TableLazyLoadEvent) {
-    const page = event!.first! / event!.rows!;
-    const size = event.rows!;
-    this.findByFilter(page, size);
+    const first = event.first ?? 0;
+    const rows = event.rows ?? this.currentRows;
+
+    this.currentRows = rows;
+    this.findByFilter(first / rows, rows);
+  }
+
+  applyFilters() {
+    this.findByFilter(0, this.currentRows);
   }
 
   cleanFilters() {
-    this.filter = {};
+    this.descriptionFilter = '';
+    this.selectedStatus = 'ALL';
+    this.selectedPeriod = 'LAST_12_MONTHS';
+    this.findByFilter(0, this.currentRows);
   }
 
-  delete(event: Event, id: number) {
+  openActions(menu: Menu, event: Event, income: Income) {
+    this.actionMenuItems = [
+      {
+        label: 'Editar',
+        icon: 'pi pi-pencil',
+        command: () => this.router.navigate(['/income', income.id]),
+      },
+      {
+        label: 'Marcar como recebido',
+        icon: 'pi pi-check-circle',
+        visible: income.status === 'OPEN',
+        command: () => this.receive(income.id!),
+      },
+      {
+        label: 'Duplicar',
+        icon: 'pi pi-copy',
+        command: () => this.duplicate(income),
+      },
+      {
+        label: 'Excluir',
+        icon: 'pi pi-trash',
+        command: () => this.delete(event, income.id!),
+      },
+    ];
+
+    menu.toggle(event);
+  }
+
+  statusLabel(income: Income): string {
+    if (income.status === 'RECEIVED') {
+      return 'Recebido';
+    }
+
+    return this.isOverdue(income) ? 'Atrasado' : 'Pendente';
+  }
+
+  statusClass(income: Income): string {
+    if (income.status === 'RECEIVED') {
+      return 'is-received';
+    }
+
+    return this.isOverdue(income) ? 'is-overdue' : 'is-pending';
+  }
+
+  formatCurrency(value?: number): string {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(value ?? 0);
+  }
+
+  private findByFilter(page = 0, size = 10) {
+    this.syncFilter(page, size);
+    this.loading = true;
+
+    this.incomeService.findByFilter(this.filter).subscribe({
+      next: (result) => {
+        this.incomes = result.content;
+        this.totalRecords = result.page.totalElements;
+        this.loading = false;
+        this.recalculateSummaryCards();
+      },
+      error: (error) => {
+        this.loading = false;
+        this.onError(error);
+      },
+    });
+  }
+
+  private syncFilter(page: number, size: number) {
+    this.filter.page = page;
+    this.filter.size = size;
+    this.filter.description = this.descriptionFilter.trim() || undefined;
+    this.filter.status =
+      this.selectedStatus === 'ALL' ? undefined : [this.selectedStatus];
+    this.applyPeriodToFilter();
+  }
+
+  private applyPeriodToFilter() {
+    if (this.selectedPeriod === 'ALL_TIME') {
+      this.filter.dateDueStart = undefined;
+      this.filter.dateDueEnd = undefined;
+      return;
+    }
+
+    const now = new Date();
+
+    if (this.selectedPeriod === 'THIS_MONTH') {
+      this.filter.dateDueStart = new Date(now.getFullYear(), now.getMonth(), 1);
+      this.filter.dateDueEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+      return;
+    }
+
+    this.filter.dateDueStart = new Date(now.getFullYear() - 1, now.getMonth(), 1);
+    this.filter.dateDueEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  }
+
+  private recalculateSummaryCards() {
+    this.receivedTotal = 0;
+    this.pendingTotal = 0;
+    this.overdueTotal = 0;
+
+    this.receivedCount = 0;
+    this.pendingCount = 0;
+    this.overdueCount = 0;
+
+    this.incomes.forEach((income) => {
+      const amount = income.amount ?? 0;
+
+      if (income.status === 'RECEIVED') {
+        this.receivedTotal += amount;
+        this.receivedCount++;
+        return;
+      }
+
+      if (this.isOverdue(income)) {
+        this.overdueTotal += amount;
+        this.overdueCount++;
+        return;
+      }
+
+      this.pendingTotal += amount;
+      this.pendingCount++;
+    });
+  }
+
+  private isOverdue(income: Income): boolean {
+    if (income.status !== 'OPEN' || !income.dateDue) {
+      return false;
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const dueDate = new Date(income.dateDue);
+    dueDate.setHours(0, 0, 0, 0);
+
+    return dueDate < today;
+  }
+
+  private duplicate(income: Income) {
+    const duplicated: Income = {
+      description: income.description,
+      amount: income.amount,
+      dateDue: income.dateDue,
+      categoryId: income.categoryId,
+    };
+
+    this.incomeService.create(duplicated).subscribe({
+      next: () => {
+        this.findByFilter(0, this.currentRows);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Sucesso',
+          detail: 'Receita duplicada com sucesso',
+        });
+      },
+      error: (error) => this.onError(error),
+    });
+  }
+
+  private delete(event: Event, id: number) {
     this.confirmationService.confirm({
-      target: event.target!,
-      message: 'Are you sure that you want to proceed?',
+      target: event.target as EventTarget,
+      message: 'Tem certeza que deseja excluir este registro?',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.incomeService.delete(id).subscribe({
-          next: (result) => {
-            this.findByFilter();
+          next: () => {
+            this.findByFilter(0, this.currentRows);
             this.messageService.add({
               severity: 'success',
-              summary: 'Success',
-              detail: 'Deleted successfully',
+              summary: 'Sucesso',
+              detail: 'Receita excluida com sucesso',
             });
           },
           error: (error) => this.onError(error),
@@ -115,14 +287,14 @@ export class IncomeListComponent implements OnInit {
     });
   }
 
-  receive(id: number): void {
+  private receive(id: number): void {
     this.incomeService.receive(id).subscribe({
-      next: (result) => {
-        this.findByFilter();
+      next: () => {
+        this.findByFilter(0, this.currentRows);
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'Received successfully',
+          summary: 'Sucesso',
+          detail: 'Receita marcada como recebida',
         });
       },
       error: (error) => this.onError(error),

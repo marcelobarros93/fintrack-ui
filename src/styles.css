@@ -6,3 +6,495 @@
     width: 2rem !important;
     height: 2rem !important;
 }
+
+app-income-list .income-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+app-income-list .income-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+app-income-list .income-header h1 {
+    margin: 0;
+    font-size: 2.3rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+app-income-list .income-header p {
+    margin: 0.45rem 0 0;
+    font-size: 1.25rem;
+    color: #64748b;
+}
+
+app-income-list .new-income-button {
+    height: 3.1rem;
+    border-radius: 0.75rem;
+    padding: 0 1.3rem;
+}
+
+app-income-list .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+app-income-list .summary-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid #dde3ec;
+    border-radius: 0.95rem;
+    background: #ffffff;
+    padding: 1.25rem;
+}
+
+app-income-list .summary-card strong {
+    display: block;
+    font-size: 1.95rem;
+    font-weight: 600;
+    color: #1f2937;
+    line-height: 1;
+}
+
+app-income-list .summary-card h3 {
+    margin: 0.45rem 0 0;
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #111827;
+}
+
+app-income-list .summary-card p {
+    margin: 0.25rem 0 0;
+    color: #64748b;
+    font-size: 1.2rem;
+}
+
+app-income-list .summary-icon {
+    width: 2.35rem;
+    height: 2.35rem;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+app-income-list .summary-card.received .summary-icon {
+    background: #d7f8e8;
+    color: #0f9d58;
+}
+
+app-income-list .summary-card.pending .summary-icon {
+    background: #d9ebff;
+    color: #2563eb;
+}
+
+app-income-list .summary-card.overdue {
+    background: #fff8f7;
+}
+
+app-income-list .summary-card.overdue .summary-icon {
+    background: #fde0db;
+    color: #dc2626;
+}
+
+app-income-list .summary-card.overdue h3 {
+    color: #c62828;
+}
+
+app-income-list .filter-toolbar {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) 180px 240px auto;
+    gap: 0.9rem;
+    align-items: center;
+    border: 1px solid #dde3ec;
+    border-radius: 0.95rem;
+    background: #ffffff;
+    padding: 0.9rem;
+}
+
+app-income-list .search-box {
+    position: relative;
+}
+
+app-income-list .search-box i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+}
+
+app-income-list .search-box input {
+    width: 100%;
+    height: 2.9rem;
+    border-radius: 0.65rem;
+    padding-left: 2.4rem;
+}
+
+app-income-list .clear-button {
+    height: 2.9rem;
+    border-radius: 0.65rem;
+}
+
+app-income-list .table-shell {
+    border: 1px solid #dde3ec;
+    border-radius: 0.95rem;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+app-income-list .income-table .p-datatable-thead > tr > th {
+    background: #f8fafc;
+    color: #1f2937;
+    font-weight: 700;
+    font-size: 1.2rem;
+    border-color: #dde3ec;
+    padding: 1rem 1.2rem;
+}
+
+app-income-list .income-table .p-datatable-tbody > tr > td {
+    border-color: #dde3ec;
+    padding: 1rem 1.2rem;
+    font-size: 1.1rem;
+    color: #1f2937;
+    vertical-align: middle;
+}
+
+app-income-list .col-value,
+app-income-list .col-date,
+app-income-list .col-status,
+app-income-list .col-actions {
+    white-space: nowrap;
+}
+
+app-income-list .col-actions {
+    text-align: right;
+    width: 70px;
+}
+
+app-income-list .status-pill {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 0.3rem 0.75rem;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+app-income-list .status-pill.is-pending {
+    background: #fff3da;
+    color: #7a4d12;
+}
+
+app-income-list .status-pill.is-received {
+    background: #dbf5e9;
+    color: #16613f;
+}
+
+app-income-list .status-pill.is-overdue {
+    background: #ffe2e2;
+    color: #b42318;
+}
+
+app-income-list .action-toggle {
+    width: 2.2rem;
+    height: 2.2rem;
+    border: 1px solid #dde3ec;
+    border-radius: 0.55rem;
+}
+
+app-income-list .empty-state {
+    text-align: center;
+    color: #64748b;
+    padding: 1.2rem;
+}
+
+@media (max-width: 1200px) {
+    app-income-list .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    app-income-list .filter-toolbar {
+        grid-template-columns: 1fr;
+    }
+
+    app-income-list .income-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+app-expense-list .expense-page,
+app-planning-list .planning-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+app-expense-list .expense-header,
+app-planning-list .planning-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+app-expense-list .expense-header h1,
+app-planning-list .planning-header h1 {
+    margin: 0;
+    font-size: 2.3rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+app-expense-list .expense-header p,
+app-planning-list .planning-header p {
+    margin: 0.45rem 0 0;
+    font-size: 1.25rem;
+    color: #64748b;
+}
+
+app-expense-list .new-expense-button,
+app-planning-list .new-planning-button {
+    height: 3.1rem;
+    border-radius: 0.75rem;
+    padding: 0 1.3rem;
+}
+
+app-expense-list .summary-grid,
+app-planning-list .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+app-expense-list .summary-card,
+app-planning-list .summary-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid #dde3ec;
+    border-radius: 0.95rem;
+    background: #ffffff;
+    padding: 1.25rem;
+}
+
+app-expense-list .summary-card strong,
+app-planning-list .summary-card strong {
+    display: block;
+    font-size: 1.95rem;
+    font-weight: 600;
+    color: #1f2937;
+    line-height: 1;
+}
+
+app-expense-list .summary-card h3,
+app-planning-list .summary-card h3 {
+    margin: 0.45rem 0 0;
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #111827;
+}
+
+app-expense-list .summary-card p,
+app-planning-list .summary-card p {
+    margin: 0.25rem 0 0;
+    color: #64748b;
+    font-size: 1.2rem;
+}
+
+app-expense-list .summary-icon,
+app-planning-list .summary-icon {
+    width: 2.35rem;
+    height: 2.35rem;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+app-expense-list .summary-card.paid .summary-icon,
+app-planning-list .summary-card.income .summary-icon {
+    background: #d7f8e8;
+    color: #0f9d58;
+}
+
+app-expense-list .summary-card.pending .summary-icon,
+app-planning-list .summary-card.expense .summary-icon {
+    background: #d9ebff;
+    color: #2563eb;
+}
+
+app-expense-list .summary-card.overdue,
+app-planning-list .summary-card.inactive {
+    background: #fff8f7;
+}
+
+app-expense-list .summary-card.overdue .summary-icon,
+app-planning-list .summary-card.inactive .summary-icon {
+    background: #fde0db;
+    color: #dc2626;
+}
+
+app-expense-list .summary-card.overdue h3,
+app-planning-list .summary-card.inactive h3 {
+    color: #c62828;
+}
+
+app-expense-list .filter-toolbar,
+app-planning-list .filter-toolbar {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) 180px 240px auto;
+    gap: 0.9rem;
+    align-items: center;
+    border: 1px solid #dde3ec;
+    border-radius: 0.95rem;
+    background: #ffffff;
+    padding: 0.9rem;
+}
+
+app-expense-list .search-box,
+app-planning-list .search-box {
+    position: relative;
+}
+
+app-expense-list .search-box i,
+app-planning-list .search-box i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+}
+
+app-expense-list .search-box input,
+app-planning-list .search-box input {
+    width: 100%;
+    height: 2.9rem;
+    border-radius: 0.65rem;
+    padding-left: 2.4rem;
+}
+
+app-expense-list .clear-button,
+app-planning-list .clear-button {
+    height: 2.9rem;
+    border-radius: 0.65rem;
+}
+
+app-expense-list .table-shell,
+app-planning-list .table-shell {
+    border: 1px solid #dde3ec;
+    border-radius: 0.95rem;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+app-expense-list .expense-table .p-datatable-thead > tr > th,
+app-planning-list .planning-table .p-datatable-thead > tr > th {
+    background: #f8fafc;
+    color: #1f2937;
+    font-weight: 700;
+    font-size: 1.2rem;
+    border-color: #dde3ec;
+    padding: 1rem 1.2rem;
+}
+
+app-expense-list .expense-table .p-datatable-tbody > tr > td,
+app-planning-list .planning-table .p-datatable-tbody > tr > td {
+    border-color: #dde3ec;
+    padding: 1rem 1.2rem;
+    font-size: 1.1rem;
+    color: #1f2937;
+    vertical-align: middle;
+}
+
+app-expense-list .col-value,
+app-expense-list .col-date,
+app-expense-list .col-status,
+app-expense-list .col-actions,
+app-planning-list .col-value,
+app-planning-list .col-day,
+app-planning-list .col-date,
+app-planning-list .col-type,
+app-planning-list .col-status,
+app-planning-list .col-actions {
+    white-space: nowrap;
+}
+
+app-expense-list .col-actions,
+app-planning-list .col-actions {
+    text-align: right;
+    width: 70px;
+}
+
+app-expense-list .status-pill,
+app-planning-list .status-pill,
+app-planning-list .type-pill {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 0.3rem 0.75rem;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+app-expense-list .status-pill.is-pending {
+    background: #fff3da;
+    color: #7a4d12;
+}
+
+app-expense-list .status-pill.is-paid,
+app-planning-list .status-pill.is-received,
+app-planning-list .type-pill.is-income {
+    background: #dbf5e9;
+    color: #16613f;
+}
+
+app-expense-list .status-pill.is-overdue,
+app-planning-list .status-pill.is-overdue,
+app-planning-list .type-pill.is-expense {
+    background: #ffe2e2;
+    color: #b42318;
+}
+
+app-expense-list .action-toggle,
+app-planning-list .action-toggle {
+    width: 2.2rem;
+    height: 2.2rem;
+    border: 1px solid #dde3ec;
+    border-radius: 0.55rem;
+}
+
+app-expense-list .empty-state,
+app-planning-list .empty-state {
+    text-align: center;
+    color: #64748b;
+    padding: 1.2rem;
+}
+
+@media (max-width: 1200px) {
+    app-expense-list .summary-grid,
+    app-planning-list .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    app-expense-list .filter-toolbar,
+    app-planning-list .filter-toolbar {
+        grid-template-columns: 1fr;
+    }
+
+    app-expense-list .expense-header,
+    app-planning-list .planning-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}

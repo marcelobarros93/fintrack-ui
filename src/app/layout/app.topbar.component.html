@@ -1,12 +1,17 @@
 <div class="layout-topbar">
-  <a class="layout-topbar-logo" routerLink="">
-    <span>FINTRACK</span>
+  <a class="layout-topbar-logo" routerLink="/">
+    <span class="layout-topbar-logo-mark">
+      <i class="pi pi-arrow-up-right"></i>
+    </span>
+    <span class="layout-topbar-logo-text">FINTRACK</span>
   </a>
 
   <button
     #menubutton
     class="p-link layout-menu-button layout-topbar-button"
     (click)="layoutService.onMenuToggle()"
+    type="button"
+    aria-label="Abrir menu"
   >
     <i class="pi pi-bars"></i>
   </button>
@@ -15,6 +20,8 @@
     #topbarmenubutton
     class="p-link layout-topbar-menu-button layout-topbar-button"
     (click)="layoutService.showProfileSidebar()"
+    type="button"
+    aria-label="Abrir ações"
   >
     <i class="pi pi-ellipsis-v"></i>
   </button>
@@ -27,13 +34,16 @@
         layoutService.state.profileSidebarVisible
     }"
   >
-    <button
-      class="p-link layout-topbar-button"
-      (click)="logout()"
-      title="Logout"
-    >
-      <i class="pi pi-sign-out"></i>
-      <span>Logout</span>
+    <button class="p-link layout-topbar-button" type="button" aria-label="Notificações">
+      <i class="pi pi-bell"></i>
+    </button>
+
+    <button class="p-link layout-topbar-button" type="button" aria-label="Configurações" (click)="layoutService.showConfigSidebar()">
+      <i class="pi pi-cog"></i>
+    </button>
+
+    <button class="layout-topbar-avatar" type="button" (click)="logout()" aria-label="Logout">
+      MB
     </button>
   </div>
 </div>

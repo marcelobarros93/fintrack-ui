@@ -1,10 +1,9 @@
 @media screen and (min-width: 1729px) {
     .layout-main, .landing-wrapper {
-        width: 1504px;
+        width: 100%;
         margin-left: auto !important;
         margin-right: auto !important;
     }
-
 }
 
 @media (min-width: 992px) {
@@ -20,8 +19,7 @@
                 left: 0;
                 top: 0;
                 height: 100vh;
-                border-top-left-radius: 0;
-                border-bottom-left-radius: 0;
+                border-radius: 0;
             }
 
             &.layout-overlay-active {
@@ -33,7 +31,7 @@
 
         &.layout-static {
             .layout-main-container {
-                margin-left: 300px;
+                margin-left: 270px;
             }
 
             &.layout-static-inactive {
@@ -63,7 +61,7 @@
     .layout-wrapper {
         .layout-main-container {
             margin-left: 0;
-            padding-left: 2rem;
+            padding: 6.5rem 1rem 1rem;
         }
 
         .layout-sidebar {
@@ -71,8 +69,7 @@
             left: 0;
             top: 0;
             height: 100vh;
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
+            border-radius: 0;
         }
 
         .layout-mask {
