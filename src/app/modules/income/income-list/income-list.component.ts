@@ -45,7 +45,7 @@ export class IncomeListComponent implements OnInit {
 
   descriptionFilter = '';
   selectedStatus = 'ALL';
-  selectedPeriod = 'LAST_12_MONTHS';
+  selectedPeriod = 'THIS_MONTH';
 
   statusOptions: SelectOption[] = [
     { label: 'Todos os status', value: 'ALL' },
@@ -54,8 +54,10 @@ export class IncomeListComponent implements OnInit {
   ];
 
   periodOptions: SelectOption[] = [
-    { label: 'Ultimos 12 meses', value: 'LAST_12_MONTHS' },
     { label: 'Este mes', value: 'THIS_MONTH' },
+    { label: 'Ultimo mes', value: 'LAST_MONTH' },
+    { label: 'Ultimos 3 meses', value: 'LAST_3_MONTHS' },
+    { label: 'Ultimos 12 meses', value: 'LAST_12_MONTHS' },
     { label: 'Todo periodo', value: 'ALL_TIME' },
   ];
 
@@ -98,7 +100,7 @@ export class IncomeListComponent implements OnInit {
   cleanFilters() {
     this.descriptionFilter = '';
     this.selectedStatus = 'ALL';
-    this.selectedPeriod = 'LAST_12_MONTHS';
+    this.selectedPeriod = 'THIS_MONTH';
     this.findByFilter(0, this.currentRows);
   }
 
@@ -193,6 +195,18 @@ export class IncomeListComponent implements OnInit {
 
     if (this.selectedPeriod === 'THIS_MONTH') {
       this.filter.dateDueStart = new Date(now.getFullYear(), now.getMonth(), 1);
+      this.filter.dateDueEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+      return;
+    }
+
+    if (this.selectedPeriod === 'LAST_MONTH') {
+      this.filter.dateDueStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+      this.filter.dateDueEnd = new Date(now.getFullYear(), now.getMonth(), 0);
+      return;
+    }
+
+    if (this.selectedPeriod === 'LAST_3_MONTHS') {
+      this.filter.dateDueStart = new Date(now.getFullYear(), now.getMonth() - 2, 1);
       this.filter.dateDueEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0);
       return;
     }
@@ -305,3 +319,5 @@ export class IncomeListComponent implements OnInit {
     this.errorHandlingService.handle(error);
   }
 }
+
+
