@@ -1,30 +1,74 @@
-import { ErrorHandlerService } from '../../core/error-handler.service';
-import { Balance } from './../balance';
-import { DashboardService } from './../dashboard.service';
-import { PeriodOverview } from './PeriodOverview';
-import { DatePipe, NgStyle } from '@angular/common';
+import { NgIf } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { ChartModule } from 'primeng/chart';
-import { CalendarModule } from 'primeng/calendar';
+import { DropdownModule } from 'primeng/dropdown';
+import { forkJoin } from 'rxjs';
+import { ErrorHandlerService } from '../../core/error-handler.service';
+import { DashboardService } from './../dashboard.service';
+import { PeriodOverview } from './PeriodOverview';
+import { ButtonDirective } from 'primeng/button';
+
+interface FilterOption {
+  label: string;
+  value: string;
+}
+
+interface DateRange {
+  start: Date;
+  end: Date;
+}
+
+interface DashboardSummary {
+  income: number;
+  expense: number;
+  balance: number;
+  diffIncome?: number;
+  diffExpense?: number;
+  diffBalance?: number;
+  supportsDiff: boolean;
+  subtitle: string;
+}
 
 @Component({
-    selector: 'app-dashboard',
-    templateUrl: './dashboard.component.html',
-    styleUrls: ['./dashboard.component.css'],
-    standalone: true,
-  imports: [NgStyle, ChartModule, FormsModule, CalendarModule],
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css'],
+  standalone: true,
+  imports: [NgIf, FormsModule, RouterLink, ChartModule, DropdownModule, ButtonDirective],
 })
 export class DashboardComponent implements OnInit {
-  balance?: Balance;
-  overviewChart: any;
-  start?: Date;
-  end?: Date;
+  summary: DashboardSummary = {
+    income: 0,
+    expense: 0,
+    balance: 0,
+    supportsDiff: false,
+    subtitle: 'no periodo selecionado',
+  };
 
-  // Propriedades para seleção de mês/período
-  selectedBalanceMonth: Date = new Date();
-  selectedOverviewStart: Date = new Date(new Date().getFullYear(), new Date().getMonth() - 5, 1);
-  selectedOverviewEnd: Date = new Date();
+  overviewChart: any;
+  overviewChartOptions: any;
+
+  selectedSummaryFilter = 'CURRENT_MONTH';
+  selectedChartFilter = 'LAST_12_MONTHS';
+
+  summaryOptions: FilterOption[] = [
+    { label: 'Mes atual', value: 'CURRENT_MONTH' },
+    { label: 'Mes anterior', value: 'PREVIOUS_MONTH' },
+    { label: 'Ultimos 3 meses', value: 'LAST_3_MONTHS' },
+    { label: 'Ultimos 6 meses', value: 'LAST_6_MONTHS' },
+    { label: 'Ultimo ano', value: 'LAST_12_MONTHS' },
+    { label: 'Todo o periodo', value: 'ALL_TIME' },
+  ];
+
+  chartOptions: FilterOption[] = [
+    { label: 'Ultimos 3 meses', value: 'LAST_3_MONTHS' },
+    { label: 'Ultimos 6 meses', value: 'LAST_6_MONTHS' },
+    { label: 'Ultimos 12 meses', value: 'LAST_12_MONTHS' },
+    { label: 'Ultimo ano', value: 'LAST_YEAR' },
+  ];
 
   constructor(
     private readonly datePipe: DatePipe,
@@ -33,97 +77,229 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.updateOverviewPeriod();
-    this.updateBalanceMonth();
+    this.configureChartOptions();
+    this.loadSummary();
+    this.loadOverviewChart();
   }
 
-  onBalanceMonthChange() {
-    this.updateBalanceMonth();
+  onSummaryFilterChange() {
+    this.loadSummary();
   }
 
-  onOverviewPeriodChange() {
-    this.updateOverviewPeriod();
+  onChartFilterChange() {
+    this.loadOverviewChart();
   }
 
-  private updateBalanceMonth() {
-    // Converter Date para string no formato yyyy-MM
-    const month = this.datePipe.transform(this.selectedBalanceMonth, 'yyyy-MM');
-    this.loadBalance(month!);
+  formatCurrency(value?: number): string {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(value ?? 0);
   }
 
-  private updateOverviewPeriod() {
-    if (this.selectedOverviewStart && this.selectedOverviewEnd) {
-      // selectedOverviewStart/End são Date
-      this.start = new Date(this.selectedOverviewStart.getFullYear(), this.selectedOverviewStart.getMonth(), 1);
-      this.end = new Date(this.selectedOverviewEnd.getFullYear(), this.selectedOverviewEnd.getMonth(), 1);
-      this.loadOverviewChart();
+  formatPercent(value?: number): string {
+    if (value == null) {
+      return '-';
     }
+
+    const sign = value > 0 ? '+' : '';
+    return `${sign}${value.toFixed(2).replace('.', ',')}%`;
   }
 
-  loadBalance(month?: string) {
-    const m = month || this.datePipe.transform(new Date(), 'yyyy-MM');
-    this.dashboardService.getBalance(m!).subscribe({
-      next: (result) => {
-        this.balance = result;
-      },
-      error: (error) => this.onError(error),
-    });
-  }
+  private loadSummary() {
+    if (this.selectedSummaryFilter === 'CURRENT_MONTH' || this.selectedSummaryFilter === 'PREVIOUS_MONTH') {
+      const range = this.getRangeBySummaryFilter(this.selectedSummaryFilter);
+      const month = this.toMonthKey(range.end);
 
-  loadOverviewChart() {
-    let startString = this.datePipe.transform(this.start, 'yyyy-MM');
-    let endString = this.datePipe.transform(this.end, 'yyyy-MM');
+      this.dashboardService.getBalance(month).subscribe({
+        next: (result) => {
+          this.summary = {
+            income: result.totalIncomeGivenMonth ?? 0,
+            expense: result.totalExpenseGivenMonth ?? 0,
+            balance: result.balanceGivenMonth ?? 0,
+            diffIncome: result.differencePercentageIncome,
+            diffExpense: result.differencePercentageExpense,
+            diffBalance: result.differencePercentageBalance,
+            supportsDiff: true,
+            subtitle: 'desde mes passado',
+          };
+        },
+        error: (error) => this.onError(error),
+      });
+
+      return;
+    }
+
+    const range = this.getRangeBySummaryFilter(this.selectedSummaryFilter);
+
     this.dashboardService
-      .getPeriodOverview(startString!, endString!)
+      .getPeriodOverview(this.toMonthKey(range.start), this.toMonthKey(range.end))
       .subscribe({
         next: (result) => {
-          this.buildOverviewChart(result);
+          const income = this.sumOverview(result.incomes);
+          const expense = this.sumOverview(result.expenses);
+
+          this.summary = {
+            income,
+            expense,
+            balance: income - expense,
+            supportsDiff: false,
+            subtitle: this.buildPeriodSubtitle(range),
+          };
         },
         error: (error) => this.onError(error),
       });
   }
 
-  private buildOverviewChart(periodOverview: PeriodOverview) {
-    let labels: any = [];
-    let incomes: number[] = [];
-    let expenses: number[] = [];
+  private loadOverviewChart() {
+    const range = this.getRangeByChartFilter(this.selectedChartFilter);
 
-    // Gera lista de meses entre start e end
-    if (this.start && this.end) {
-      let d = new Date(this.start);
-      while (d <= this.end) {
-        labels.push(this.datePipe.transform(d, 'yyyy-MM'));
-        d = new Date(d.getFullYear(), d.getMonth() + 1, 1);
-      }
-    }
+    this.dashboardService
+      .getPeriodOverview(this.toMonthKey(range.start), this.toMonthKey(range.end))
+      .subscribe({
+        next: (result) => {
+          this.buildOverviewChart(result, range);
+        },
+        error: (error) => this.onError(error),
+      });
+  }
 
-    for(const element of labels) {
-      incomes.push(
-        periodOverview.incomes?.find((i) => i.month === element)?.total ?? 0
-      );
-      expenses.push(
-        periodOverview.expenses?.find((i) => i.month === element)?.total ?? 0
-      );
+  private buildOverviewChart(periodOverview: PeriodOverview, range: DateRange) {
+    const labels: string[] = [];
+    const incomes: number[] = [];
+    const expenses: number[] = [];
+    const balanceLine: number[] = [];
+
+    const cursor = new Date(range.start);
+
+    while (cursor <= range.end) {
+      const monthKey = this.toMonthKey(cursor);
+      labels.push(this.formatMonthLabel(cursor));
+
+      const income = periodOverview.incomes?.find((i) => i.month === monthKey)?.total ?? 0;
+      const expense = periodOverview.expenses?.find((i) => i.month === monthKey)?.total ?? 0;
+
+      incomes.push(income);
+      expenses.push(expense);
+      balanceLine.push(income - expense);
+
+      cursor.setMonth(cursor.getMonth() + 1);
     }
 
     this.overviewChart = {
-      labels: labels,
+      labels,
       datasets: [
         {
-          label: 'Expense',
-          backgroundColor: '#e04e4b',
-          data: expenses,
+          label: 'Receitas',
+          backgroundColor: '#63b36a',
+          borderColor: '#63b36a',
+          data: incomes,
+          borderRadius: 8,
+          //maxBarThickness: 50,
         },
         {
-          label: 'Income',
-          backgroundColor: '#5db359',
-          data: incomes,
-        },
+          label: 'Despesas',
+          backgroundColor: '#e46661',
+          borderColor: '#e46661',
+          data: expenses,
+          borderRadius: 8,
+          //maxBarThickness: 50,
+        }
       ],
     };
+  }
+
+  private configureChartOptions() {
+    this.overviewChartOptions = {
+      maintainAspectRatio: false,
+      aspectRatio: 0.7
+    };
+  }
+
+  private getRangeBySummaryFilter(filter: string): DateRange {
+    const end = this.getCurrentMonthStart();
+
+    switch (filter) {
+      case 'PREVIOUS_MONTH':
+        return {
+          start: new Date(end.getFullYear(), end.getMonth() - 1, 1),
+          end: new Date(end.getFullYear(), end.getMonth() - 1, 1),
+        };
+      case 'LAST_3_MONTHS':
+        return {
+          start: new Date(end.getFullYear(), end.getMonth() - 2, 1),
+          end,
+        };
+      case 'LAST_6_MONTHS':
+        return {
+          start: new Date(end.getFullYear(), end.getMonth() - 5, 1),
+          end,
+        };
+      case 'LAST_12_MONTHS':
+        return {
+          start: new Date(end.getFullYear(), end.getMonth() - 11, 1),
+          end,
+        };
+      case 'ALL_TIME':
+        return {
+          start: new Date(2000, 0, 1),
+          end,
+        };
+      default:
+        return {
+          start: end,
+          end,
+        };
+    }
+  }
+
+  private getRangeByChartFilter(filter: string): DateRange {
+    const end = this.getCurrentMonthStart();
+
+    switch (filter) {
+      case 'LAST_3_MONTHS':
+        return { start: new Date(end.getFullYear(), end.getMonth() - 2, 1), end };
+      case 'LAST_6_MONTHS':
+        return { start: new Date(end.getFullYear(), end.getMonth() - 5, 1), end };
+      case 'LAST_YEAR': {
+        const year = end.getFullYear() - 1;
+        return { start: new Date(year, 0, 1), end: new Date(year, 11, 1) };
+      }
+      default:
+        return { start: new Date(end.getFullYear(), end.getMonth() - 11, 1), end };
+    }
+  }
+
+  private buildPeriodSubtitle(range: DateRange): string {
+    return `${this.formatMonthLabel(range.start)} ate ${this.formatMonthLabel(range.end)}`;
+  }
+
+  private formatMonthLabel(date: Date): string {
+    const monthNames = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+    return `${monthNames[date.getMonth()]}/${String(date.getFullYear()).slice(-2)}`;
+  }
+
+  private toMonthKey(date: Date): string {
+    return this.datePipe.transform(date, 'yyyy-MM')!;
+  }
+
+  private getCurrentMonthStart(): Date {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), 1);
+  }
+
+  private sumOverview(values?: any[]): number {
+    if (!values || values.length === 0) {
+      return 0;
+    }
+
+    return values.reduce((total, item) => total + (item.total ?? 0), 0);
   }
 
   private onError(error: any) {
     this.errorHandlingService.handle(error);
   }
 }
+
