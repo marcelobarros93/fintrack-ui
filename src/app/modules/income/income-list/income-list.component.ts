@@ -259,10 +259,11 @@ export class IncomeListComponent implements OnInit {
 
   private duplicate(income: Income) {
     const duplicated: Income = {
-      description: income.description,
+      description: income.description + ' (cópia)',
       amount: income.amount,
       dateDue: income.dateDue,
       categoryId: income.categoryId,
+      status: 'OPEN',
     };
 
     this.incomeService.create(duplicated).subscribe({
@@ -283,6 +284,8 @@ export class IncomeListComponent implements OnInit {
       target: event.target as EventTarget,
       message: 'Tem certeza que deseja excluir este registro?',
       icon: 'pi pi-exclamation-triangle',
+      rejectLabel: 'Não',
+      acceptLabel: 'Sim',
       accept: () => {
         this.incomeService.delete(id).subscribe({
           next: () => {

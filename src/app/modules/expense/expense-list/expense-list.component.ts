@@ -259,7 +259,7 @@ export class ExpenseListComponent implements OnInit {
 
   private duplicate(expense: Expense) {
     const duplicated: Expense = {
-      description: expense.description,
+      description: expense.description + ' (cópia)',
       amount: expense.amount,
       dateDue: expense.dateDue,
       categoryId: expense.categoryId,
@@ -283,6 +283,8 @@ export class ExpenseListComponent implements OnInit {
       target: event.target as EventTarget,
       message: 'Tem certeza que deseja excluir este registro?',
       icon: 'pi pi-exclamation-triangle',
+      rejectLabel: 'Não',
+      acceptLabel: 'Sim',
       accept: () => {
         this.expenseService.delete(id).subscribe({
           next: () => {

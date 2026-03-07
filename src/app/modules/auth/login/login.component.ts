@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
-import { MessageService } from 'primeng/api';
 import { ErrorHandlerService } from '../../core/error-handler.service';
 import { ButtonDirective } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';

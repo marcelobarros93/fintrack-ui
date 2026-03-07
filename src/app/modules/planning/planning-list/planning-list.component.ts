@@ -217,7 +217,7 @@ export class PlanningListComponent implements OnInit {
 
   private duplicate(planning: Planning) {
     const duplicated: Planning = {
-      description: planning.description,
+      description: planning.description + ' (cópia)',
       amount: planning.amount,
       dueDay: planning.dueDay,
       type: planning.type,
@@ -246,6 +246,8 @@ export class PlanningListComponent implements OnInit {
       target: event.target as EventTarget,
       message: 'Tem certeza que deseja excluir este registro?',
       icon: 'pi pi-exclamation-triangle',
+      rejectLabel: 'Não',
+      acceptLabel: 'Sim',
       accept: () => {
         this.planningService.delete(id).subscribe({
           next: () => {

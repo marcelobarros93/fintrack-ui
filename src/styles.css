@@ -683,5 +683,206 @@ app-planning .edit-card .p-selectbutton {
         width: 100%;
     }
 }
+app-login {
+  display: block;
+}
 
+app-login .login-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  background: #f6f8fd;
+}
 
+app-login .login-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 4.5rem 4.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2.2rem;
+  color: #eef4ff;
+  background: radial-gradient(circle at 22% 18%, #5b8dff 0%, #346ae8 52%, #2454cb 100%);
+}
+
+app-login .hero-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  z-index: 1;
+}
+
+app-login .hero-logo-mark {
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+app-login .hero-logo-mark i {
+  font-size: 1.2rem;
+}
+
+app-login .hero-logo-text {
+  font-size: 2.2rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+app-login .hero-copy {
+  max-width: 28rem;
+  z-index: 1;
+}
+
+app-login .hero-copy h1 {
+  margin: 0;
+  font-size: 4rem;
+  line-height: 1.22;
+  font-weight: 500;
+}
+
+app-login .hero-copy p {
+  margin: 1.4rem 0 0;
+  font-size: 2rem;
+  line-height: 1.45;
+  color: rgba(242, 246, 255, 0.92);
+}
+
+app-login .hero-graphic {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6%;
+  height: 42%;
+  opacity: 0.34;
+  background:
+    linear-gradient(140deg, transparent 0 12%, rgba(255, 255, 255, 0.22) 12% 13%, transparent 13% 24%, rgba(255, 255, 255, 0.22) 24% 25%, transparent 25% 100%),
+    radial-gradient(120% 72% at 50% 100%, rgba(255, 255, 255, 0.35), transparent 63%),
+    linear-gradient(to top, rgba(255, 255, 255, 0.3), transparent 68%);
+}
+
+app-login .login-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background:
+    radial-gradient(120% 70% at 10% 20%, #ffffff 0%, #f3f5fb 50%, #eef2fb 100%);
+}
+
+app-login .login-card {
+  width: min(520px, 100%);
+  border-radius: 1.45rem;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #e1e6f2;
+  box-shadow: 0 20px 40px rgba(36, 68, 130, 0.12);
+  backdrop-filter: blur(2px);
+  padding: 2.4rem 2.6rem;
+}
+
+app-login .login-card header {
+  text-align: center;
+  margin-bottom: 1.7rem;
+}
+
+app-login .login-card h2 {
+  margin: 0;
+  font-size: 3rem;
+  color: #1f2a44;
+}
+
+app-login .login-card p {
+  margin: 0.7rem 0 0;
+  color: #6a7896;
+  font-size: 1.45rem;
+}
+
+app-login .login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+app-login .login-form label {
+  margin-top: 0.4rem;
+  color: #1f2a44;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+app-login .input-shell {
+  position: relative;
+}
+
+app-login .input-shell i {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #7f8aa3;
+}
+
+app-login .input-shell input {
+  padding-left: 2.7rem;
+  height: 3.35rem;
+  border-radius: 0.65rem;
+}
+
+app-login .login-form .p-password,
+app-login .login-form .p-password input {
+  width: 100%;
+}
+
+app-login .login-form .p-password input {
+  height: 3.35rem;
+  border-radius: 0.65rem;
+}
+
+app-login .login-submit {
+  margin-top: 1rem;
+  height: 3.35rem;
+  border-radius: 0.65rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+  background: linear-gradient(90deg, #2f6fe7 0%, #447df5 100%);
+  border-color: #2f6fe7;
+}
+
+app-login .forgot-password {
+  margin-top: 1.3rem;
+  border: 0;
+  background: transparent;
+  color: #2e63cc;
+  font-size: 1.45rem;
+  font-weight: 600;
+  width: 100%;
+  cursor: pointer;
+}
+
+@media (max-width: 1080px) {
+  app-login .login-page {
+    grid-template-columns: 1fr;
+  }
+
+  app-login .login-hero {
+    min-height: 40vh;
+    padding: 2.8rem 2rem;
+  }
+
+  app-login .hero-copy h1 {
+    font-size: 2.8rem;
+  }
+
+  app-login .hero-copy p {
+    font-size: 1.55rem;
+  }
+
+  app-login .login-main {
+    padding-top: 0;
+    padding-bottom: 2rem;
+  }
+}
