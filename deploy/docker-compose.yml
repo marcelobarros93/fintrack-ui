@@ -1,0 +1,52 @@
+services:
+  proxy:
+    image: nginx:1.29.5-alpine
+    container_name: proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx-proxy.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - ui
+      - api
+    restart: unless-stopped
+
+  ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: fintrack-ui:latest
+    container_name: ui
+    expose:
+      - "80"
+    restart: unless-stopped
+
+  api:
+    image: marcelobarros09/fintrack-api:latest
+    container_name: api
+    expose:
+      - "8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=pro
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/${POSTGRES_DB}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - SECURITY_TOKEN_SECRET_KEY=${SECURITY_TOKEN_SECRET_KEY}
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: postgres:18
+    container_name: db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    restart: always
+
+volumes:
+  postgres_data: 
