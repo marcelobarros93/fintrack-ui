@@ -7,6 +7,8 @@ services:
       - "443:443"
     volumes:
       - ./nginx-proxy.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
     depends_on:
       - ui
       - api
@@ -47,6 +49,14 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql
     restart: always
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    command: certonly --webroot -w /var/www/certbot -d marcelolabs.cloud --email ${LETS_ENCRYPT_EMAIL} --force-renewal --agree-tos --no-eff-email
 
 volumes:
   postgres_data: 
