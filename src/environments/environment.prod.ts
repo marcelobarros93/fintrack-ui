@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://marcelolabs.cloud/api',
+  apiUrl: 'https://marcelolabs.cloud/api',
 };
