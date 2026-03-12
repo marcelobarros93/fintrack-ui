@@ -14,7 +14,7 @@ services:
 
   ui:
     build:
-      context: .
+      context: ..
       dockerfile: Dockerfile
     image: fintrack-ui:latest
     container_name: ui
