@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { ErrorHandlerService } from '../core/error-handler.service';
 import { Observable } from 'rxjs';
 
 export interface LoginResponse {
@@ -12,12 +11,12 @@ export interface LoginResponse {
   providedIn: 'root',
 })
 export class AuthService {
-  private baseUrl = `${environment.apiUrl}/v1/auth`;
+  private readonly baseUrl = `${environment.apiUrl}/v1/auth`;
 
   constructor(protected http: HttpClient) {}
 
   isLogged(): boolean {
-    return !!window.localStorage.getItem('accessToken');
+    return !!globalThis.localStorage.getItem('accessToken');
   }
 
   login(email: string, password: string): Observable<LoginResponse> {
@@ -28,10 +27,10 @@ export class AuthService {
   }
 
   getAccessToken(): string | null {
-    return window.localStorage.getItem('accessToken');
+    return globalThis.localStorage.getItem('accessToken');
   }
 
   logout(): void {
-    window.localStorage.clear();
+    globalThis.localStorage.clear();
   }
 }

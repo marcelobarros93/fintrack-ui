@@ -6,13 +6,13 @@ import { HttpErrorResponse } from '@angular/common/http';
   providedIn: 'root',
 })
 export class ErrorHandlerService {
-  constructor(private messageService: MessageService) {}
+  constructor(private readonly messageService: MessageService) {}
 
   handle(error: any) {
     if (error instanceof HttpErrorResponse) {
       if (error.status == 401 || error.status == 403) {
-        window.localStorage.clear();
-        window.location.href = '/';
+        globalThis.localStorage.clear();
+        globalThis.location.href = '/';
       }
 
       error.error.messages.forEach((message: any) => {
@@ -21,6 +21,7 @@ export class ErrorHandlerService {
           summary: 'Error',
           detail: message,
           life: 5000,
+          closable: true,
         });
       });
     } else {
@@ -30,6 +31,7 @@ export class ErrorHandlerService {
         summary: 'Error',
         detail: 'An error occurred. Try again later.',
         life: 5000,
+        closable: true,
       });
     }
   }

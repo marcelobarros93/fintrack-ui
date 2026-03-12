@@ -5,18 +5,14 @@ import { ButtonDirective } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css'],
-    standalone: true,
-    imports: [
-        FormsModule,
-        InputTextModule,
-        PasswordModule,
-        ButtonDirective,
-    ],
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
+  standalone: true,
+  imports: [FormsModule, InputTextModule, PasswordModule, ButtonDirective],
 })
 export class LoginComponent {
   username: string = '';
@@ -24,7 +20,7 @@ export class LoginComponent {
 
   constructor(
     private readonly authService: AuthService,
-    private readonly errorHandlerService: ErrorHandlerService
+    private readonly messageService: MessageService,
   ) {}
 
   login(): void {
@@ -34,7 +30,14 @@ export class LoginComponent {
         globalThis.location.href = '/';
       },
       error: (error) => {
-        this.errorHandlerService.handle(error);
+        console.error('Login error:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro ao entrar',
+          detail: 'Usuário e/ou senha inválidos',
+          life: 5000,
+          closable: true,
+        });
       },
     });
   }
