@@ -34,6 +34,11 @@
         layoutService.state.profileSidebarVisible,
     }"
   >
+    <div class="layout-topbar-user" *ngIf="userName as currentUser">
+      <span class="layout-topbar-user-label">Olá,</span>
+      <span class="layout-topbar-user-name">{{ currentUser }}</span>
+    </div>
+
     <button
       class="p-link layout-topbar-button"
       type="button"

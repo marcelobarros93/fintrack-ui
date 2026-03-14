@@ -19,6 +19,10 @@ export interface UserResponse {
   email: string;
 }
 
+interface AccessTokenPayload {
+  userName?: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -50,7 +54,46 @@ export class AuthService {
     return globalThis.localStorage.getItem('accessToken');
   }
 
+  getUserName(): string | null {
+    const accessToken = this.getAccessToken();
+    if (!accessToken) {
+      return null;
+    }
+
+    const payload = this.decodeJwtPayload<AccessTokenPayload>(accessToken);
+    const userName = payload?.userName?.trim();
+
+    return userName || null;
+  }
+
   logout(): void {
     globalThis.localStorage.clear();
+  }
+
+  private decodeJwtPayload<T>(token: string): T | null {
+    const tokenParts = token.split('.');
+    if (tokenParts.length < 2) {
+      return null;
+    }
+
+    try {
+      const base64 = tokenParts[1].replace(/-/g, '+').replace(/_/g, '/');
+      const paddedBase64 = base64.padEnd(
+        base64.length + ((4 - (base64.length % 4)) % 4),
+        '='
+      );
+      const decoded = globalThis.atob(paddedBase64);
+      const normalized = decodeURIComponent(
+        Array.from(decoded)
+          .map((character) =>
+            `%${character.charCodeAt(0).toString(16).padStart(2, '0')}`
+          )
+          .join('')
+      );
+
+      return JSON.parse(normalized) as T;
+    } catch {
+      return null;
+    }
   }
 }

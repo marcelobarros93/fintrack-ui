@@ -94,6 +94,28 @@
         gap: 0.6rem;
     }
 
+    .layout-topbar-user {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.55rem 0.95rem;
+        border: 1px solid #dce3ed;
+        border-radius: 999px;
+        background: #f8fafc;
+        color: #334155;
+        white-space: nowrap;
+    }
+
+    .layout-topbar-user-label {
+        font-size: 0.95rem;
+        color: #64748b;
+    }
+
+    .layout-topbar-user-name {
+        font-size: 0.98rem;
+        color: #0f172a;
+    }
+
     .layout-topbar-avatar {
         border: 0;
         width: 2.75rem;
@@ -135,6 +157,7 @@
             margin-left: 0;
             position: absolute;
             flex-direction: column;
+            align-items: stretch;
             background-color: #ffffff;
             border: 1px solid #dce3ed;
             border-radius: 0.9rem;
@@ -147,6 +170,12 @@
 
             &.layout-topbar-menu-mobile-active {
                 display: flex;
+            }
+
+            .layout-topbar-user {
+                justify-content: flex-start;
+                border-radius: 0.7rem;
+                padding: 0.8rem;
             }
 
             .layout-topbar-button {
