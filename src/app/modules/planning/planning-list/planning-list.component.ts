@@ -12,6 +12,7 @@ import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { ErrorHandlerService } from '../../core/error-handler.service';
 import { Planning } from '../planning';
 import { PlanningFilter, PlanningService } from '../planning.service';
+import { TooltipModule } from 'primeng/tooltip';
 
 interface SelectOption {
   label: string;
@@ -34,6 +35,7 @@ interface SelectOption {
     RouterLink,
     DatePipe,
     NgClass,
+    TooltipModule
   ],
 })
 export class PlanningListComponent implements OnInit {

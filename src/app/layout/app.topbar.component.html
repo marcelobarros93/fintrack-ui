@@ -21,7 +21,7 @@
     class="p-link layout-topbar-menu-button layout-topbar-button"
     (click)="layoutService.showProfileSidebar()"
     type="button"
-    aria-label="Abrir ações"
+    aria-label="Abrir aÃ§Ãµes"
   >
     <i class="pi pi-ellipsis-v"></i>
   </button>
@@ -31,19 +31,29 @@
     class="layout-topbar-menu"
     [ngClass]="{
       'layout-topbar-menu-mobile-active':
-        layoutService.state.profileSidebarVisible
+        layoutService.state.profileSidebarVisible,
     }"
   >
-    <button class="p-link layout-topbar-button" type="button" aria-label="Notificações">
-      <i class="pi pi-bell"></i>
-    </button>
-
-    <button class="p-link layout-topbar-button" type="button" aria-label="Configurações" (click)="layoutService.showConfigSidebar()">
+    <button
+      class="p-link layout-topbar-button"
+      type="button"
+      aria-label="ConfiguraÃ§Ãµes"
+      (click)="layoutService.showConfigSidebar()"
+      pTooltip="ConfiguraÃ§Ãµes"
+      tooltipPosition="left"
+    >
       <i class="pi pi-cog"></i>
     </button>
 
-    <button class="layout-topbar-avatar" type="button" (click)="logout()" aria-label="Logout">
-      MB
+    <button
+      class="p-link layout-topbar-button"
+      type="button"
+      aria-label="Sair"
+      (click)="logout()"
+      pTooltip="Sair"
+      tooltipPosition="left"
+    >
+      <i class="pi pi-sign-out"></i>
     </button>
   </div>
 </div>

@@ -50,7 +50,7 @@ export class DashboardComponent implements OnInit {
   overviewChartOptions: any;
 
   selectedSummaryFilter = 'CURRENT_MONTH';
-  selectedChartFilter = 'LAST_12_MONTHS';
+  selectedChartFilter = 'LAST_6_MONTHS';
 
   summaryOptions: FilterOption[] = [
     { label: 'Mes atual', value: 'CURRENT_MONTH' },
