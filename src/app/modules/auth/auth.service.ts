@@ -7,11 +7,24 @@ export interface LoginResponse {
   token: string;
 }
 
+export interface RegisterRequest {
+  name: string;
+  email: string;
+  password: string;
+}
+
+export interface UserResponse {
+  id: string;
+  name: string;
+  email: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly baseUrl = `${environment.apiUrl}/v1/auth`;
+  private readonly authBaseUrl = `${environment.apiUrl}/v1/auth`;
+  private readonly userBaseUrl = `${environment.apiUrl}/v1/users`;
 
   constructor(protected http: HttpClient) {}
 
@@ -20,10 +33,17 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.baseUrl}/login`, {
+    return this.http.post<LoginResponse>(`${this.authBaseUrl}/login`, {
       email,
       password,
     });
+  }
+
+  register(payload: RegisterRequest): Observable<UserResponse> {
+    return this.http.post<UserResponse>(
+      `${this.userBaseUrl}/register`,
+      payload
+    );
   }
 
   getAccessToken(): string | null {

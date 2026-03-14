@@ -10,13 +10,17 @@ import { AuthService } from './modules/auth/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (request.url.endsWith('/auth/login')) {
+    const isPublicAuthRequest =
+      request.url.endsWith('/auth/login') ||
+      request.url.endsWith('/users/register');
+
+    if (isPublicAuthRequest) {
       return next.handle(request);
     }
 

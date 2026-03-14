@@ -1,18 +1,24 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
-import { ErrorHandlerService } from '../../core/error-handler.service';
 import { ButtonDirective } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
   standalone: true,
-  imports: [FormsModule, InputTextModule, PasswordModule, ButtonDirective],
+  imports: [
+    FormsModule,
+    InputTextModule,
+    PasswordModule,
+    ButtonDirective,
+    RouterLink,
+  ],
 })
 export class LoginComponent {
   username: string = '';
@@ -20,7 +26,7 @@ export class LoginComponent {
 
   constructor(
     private readonly authService: AuthService,
-    private readonly messageService: MessageService,
+    private readonly messageService: MessageService
   ) {}
 
   login(): void {

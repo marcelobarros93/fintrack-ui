@@ -59,6 +59,14 @@
           class="w-full login-submit"
           [disabled]="email.invalid || password.length < 6"
         ></button>
+
+        <button
+          type="button"
+          class="auth-link-button"
+          routerLink="/login/register"
+        >
+          Criar uma conta
+        </button>
       </form>
 
       <button type="button" class="forgot-password">Esqueceu a senha?</button>

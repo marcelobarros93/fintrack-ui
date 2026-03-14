@@ -3,18 +3,18 @@ import { provideHttpClient } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { provideRouter } from '@angular/router';
 
-import { LoginComponent } from './login.component';
+import { RegisterComponent } from './register.component';
 
-describe('LoginComponent', () => {
-  let component: LoginComponent;
-  let fixture: ComponentFixture<LoginComponent>;
+describe('RegisterComponent', () => {
+  let component: RegisterComponent;
+  let fixture: ComponentFixture<RegisterComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LoginComponent],
+      imports: [RegisterComponent],
       providers: [provideHttpClient(), provideRouter([]), MessageService],
     });
-    fixture = TestBed.createComponent(LoginComponent);
+    fixture = TestBed.createComponent(RegisterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

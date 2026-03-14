@@ -1,0 +1,100 @@
+<section class="login-page">
+  <aside class="login-hero">
+    <div class="hero-brand">
+      <span class="hero-logo-mark"><i class="pi pi-user-plus"></i></span>
+      <span class="hero-logo-text">FINTRACK</span>
+    </div>
+
+    <div class="hero-copy">
+      <h1>Comece a organizar sua vida financeira hoje</h1>
+      <p>Crie sua conta, acompanhe seu saldo e registre cada movimento com clareza.</p>
+    </div>
+
+    <div class="hero-graphic" aria-hidden="true"></div>
+  </aside>
+
+  <main class="login-main">
+    <div class="login-card">
+      <header>
+        <h2>Criar conta</h2>
+        <p>Cadastre-se para acessar o FINTRACK</p>
+      </header>
+
+      <form class="login-form" autocomplete="off" (ngSubmit)="register()">
+        <label for="name">Nome</label>
+        <div class="input-shell">
+          <i class="pi pi-user"></i>
+          <input
+            id="name"
+            type="text"
+            placeholder="Seu nome completo"
+            pInputText
+            [(ngModel)]="name"
+            name="name"
+            class="w-full"
+            #nameField="ngModel"
+            [required]="true"
+            minlength="3"
+          />
+        </div>
+
+        <label for="email">Email</label>
+        <div class="input-shell">
+          <i class="pi pi-envelope"></i>
+          <input
+            id="email"
+            type="email"
+            placeholder="seuemail@dominio.com"
+            pInputText
+            [(ngModel)]="email"
+            name="email"
+            class="w-full"
+            #emailField="ngModel"
+            [required]="true"
+            email
+          />
+        </div>
+
+        <label for="password">Senha</label>
+        <p-password
+          id="password"
+          placeholder="Crie uma senha"
+          [toggleMask]="true"
+          [(ngModel)]="password"
+          name="password"
+          styleClass="w-full"
+          inputStyleClass="w-full"
+          [feedback]="false"
+          [required]="true"
+          [minlength]="6"
+        ></p-password>
+
+        <label for="confirmPassword">Confirmar senha</label>
+        <p-password
+          id="confirmPassword"
+          placeholder="Repita a senha"
+          [toggleMask]="true"
+          [(ngModel)]="confirmPassword"
+          name="confirmPassword"
+          styleClass="w-full"
+          inputStyleClass="w-full"
+          [feedback]="false"
+          [required]="true"
+          [minlength]="6"
+        ></p-password>
+
+        <button
+          pButton
+          type="submit"
+          label="Criar conta"
+          class="w-full login-submit"
+          [disabled]="nameField.invalid || emailField.invalid || isSubmitDisabled"
+        ></button>
+
+        <button type="button" class="auth-link-button" routerLink="/login">
+          Ja tenho uma conta
+        </button>
+      </form>
+    </div>
+  </main>
+</section>
