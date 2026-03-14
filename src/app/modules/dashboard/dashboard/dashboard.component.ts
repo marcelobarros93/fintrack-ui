@@ -54,6 +54,7 @@ export class DashboardComponent implements OnInit {
 
   summaryOptions: FilterOption[] = [
     { label: 'Mes atual', value: 'CURRENT_MONTH' },
+    { label: 'Proximo mes', value: 'NEXT_MONTH' },
     { label: 'Mes anterior', value: 'PREVIOUS_MONTH' },
     { label: 'Ultimos 3 meses', value: 'LAST_3_MONTHS' },
     { label: 'Ultimos 6 meses', value: 'LAST_6_MONTHS' },
@@ -62,6 +63,7 @@ export class DashboardComponent implements OnInit {
   ];
 
   chartOptions: FilterOption[] = [
+    { label: 'Proximo mes', value: 'NEXT_MONTH' },
     { label: 'Ultimos 3 meses', value: 'LAST_3_MONTHS' },
     { label: 'Ultimos 6 meses', value: 'LAST_6_MONTHS' },
     { label: 'Ultimos 12 meses', value: 'LAST_12_MONTHS' },
@@ -107,7 +109,11 @@ export class DashboardComponent implements OnInit {
   }
 
   private loadSummary() {
-    if (this.selectedSummaryFilter === 'CURRENT_MONTH' || this.selectedSummaryFilter === 'PREVIOUS_MONTH') {
+    if (
+      this.selectedSummaryFilter === 'CURRENT_MONTH' ||
+      this.selectedSummaryFilter === 'PREVIOUS_MONTH' ||
+      this.selectedSummaryFilter === 'NEXT_MONTH'
+    ) {
       const range = this.getRangeBySummaryFilter(this.selectedSummaryFilter);
       const month = this.toMonthKey(range.end);
 
@@ -218,6 +224,11 @@ export class DashboardComponent implements OnInit {
     const end = this.getCurrentMonthStart();
 
     switch (filter) {
+      case 'NEXT_MONTH':
+        return {
+          start: new Date(end.getFullYear(), end.getMonth() + 1, 1),
+          end: new Date(end.getFullYear(), end.getMonth() + 1, 1),
+        };
       case 'PREVIOUS_MONTH':
         return {
           start: new Date(end.getFullYear(), end.getMonth() - 1, 1),
@@ -255,6 +266,8 @@ export class DashboardComponent implements OnInit {
     const end = this.getCurrentMonthStart();
 
     switch (filter) {
+      case 'NEXT_MONTH':
+        return { start: new Date(end.getFullYear(), end.getMonth() + 1, 1), end: new Date(end.getFullYear(), end.getMonth() + 1, 1) };
       case 'LAST_3_MONTHS':
         return { start: new Date(end.getFullYear(), end.getMonth() - 2, 1), end };
       case 'LAST_6_MONTHS':
@@ -298,4 +311,3 @@ export class DashboardComponent implements OnInit {
     this.errorHandlingService.handle(error);
   }
 }
-
