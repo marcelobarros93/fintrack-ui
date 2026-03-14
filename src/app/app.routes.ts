@@ -43,6 +43,14 @@ export const APP_ROUTES: Routes = [
           ),
         canActivate: [authGuard],
       },
+      {
+        path: 'category',
+        loadChildren: () =>
+          import('./modules/category/category.routes').then(
+            (m) => m.CATEGORY_ROUTES
+          ),
+        canActivate: [authGuard],
+      },
     ],
   },
 ];

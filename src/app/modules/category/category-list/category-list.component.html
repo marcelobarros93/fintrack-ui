@@ -1,0 +1,121 @@
+<section class="category-page">
+  <header class="category-header">
+    <div>
+      <h1>Categorias</h1>
+      <p>Organize as classificacoes de receitas e despesas.</p>
+    </div>
+
+    <button
+      pButton
+      type="button"
+      icon="pi pi-plus"
+      label="Nova categoria"
+      [routerLink]="['new']"
+      class="new-category-button"
+    ></button>
+  </header>
+
+  <section class="summary-grid">
+    <article class="summary-card income">
+      <div class="summary-icon"><i class="pi pi-arrow-up"></i></div>
+      <div>
+        <strong>Categorias de receita</strong>
+        <h3>{{ incomeCount }}</h3>
+        <p>classificacao(oes) visiveis</p>
+      </div>
+    </article>
+
+    <article class="summary-card expense">
+      <div class="summary-icon"><i class="pi pi-arrow-down"></i></div>
+      <div>
+        <strong>Categorias de despesa</strong>
+        <h3>{{ expenseCount }}</h3>
+        <p>classificacao(oes) visiveis</p>
+      </div>
+    </article>
+
+    <article class="summary-card neutral">
+      <div class="summary-icon"><i class="pi pi-tags"></i></div>
+      <div>
+        <strong>Total listado</strong>
+        <h3>{{ filteredCategories.length }}</h3>
+        <p>{{ categories.length }} categoria(s) carregada(s)</p>
+      </div>
+    </article>
+  </section>
+
+  <form class="filter-toolbar" (ngSubmit)="applyFilters()" autocomplete="off">
+    <div class="search-box">
+      <i class="pi pi-search"></i>
+      <input
+        pInputText
+        type="text"
+        name="name"
+        placeholder="Buscar categoria..."
+        [(ngModel)]="nameFilter"
+      />
+    </div>
+
+    <p-dropdown
+      [options]="typeOptions"
+      [(ngModel)]="selectedType"
+      name="type"
+      optionLabel="label"
+      optionValue="value"
+      styleClass="toolbar-dropdown"
+      placeholder="Tipo"
+      (onChange)="applyFilters()"
+    ></p-dropdown>
+
+    <div></div>
+
+    <button
+      pButton
+      type="button"
+      label="Limpar"
+      class="p-button-outlined clear-button"
+      (click)="cleanFilters()"
+    ></button>
+  </form>
+
+  <div class="table-shell">
+    <p-table
+      [value]="filteredCategories"
+      [loading]="loading"
+      [paginator]="true"
+      [rows]="10"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando {first} - {last} de {totalRecords}"
+      [totalRecords]="filteredCategories.length"
+      styleClass="category-table"
+      responsiveLayout="scroll"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th scope="col">Nome</th>
+          <th scope="col" class="col-type">Tipo</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-category>
+        <tr>
+          <td>{{ category.name }}</td>
+          <td class="col-type">
+            <span class="type-pill" [ngClass]="typeClass(category.type)">
+              {{ typeLabel(category.type) }}
+            </span>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="2" class="empty-state">
+            Nenhuma categoria encontrada para os filtros selecionados.
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</section>

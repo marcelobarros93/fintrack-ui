@@ -1,0 +1,80 @@
+<section class="edit-screen category-edit">
+  <div class="edit-card">
+    <header class="edit-card-header">
+      <h1>Nova categoria</h1>
+      <span class="edit-status-pill" [ngClass]="statusClass">{{
+        statusLabel
+      }}</span>
+    </header>
+
+    <form
+      [formGroup]="categoryForm"
+      class="edit-form"
+      autocomplete="off"
+      (ngSubmit)="save()"
+    >
+      <div class="edit-grid full">
+        <label for="name">Nome</label>
+        <input
+          formControlName="name"
+          pInputText
+          type="text"
+          name="name"
+          class="w-full"
+        />
+        <app-input-message
+          [control]="categoryForm.get('name')"
+          error="required"
+          text="Nome obrigatorio"
+        ></app-input-message>
+        <app-input-message
+          [control]="categoryForm.get('name')"
+          error="minlength"
+          text="Nome deve ter no minimo 3 caracteres"
+        ></app-input-message>
+        <app-input-message
+          [control]="categoryForm.get('name')"
+          error="maxlength"
+          text="Nome deve ter no maximo 100 caracteres"
+        ></app-input-message>
+      </div>
+
+      <div class="edit-grid full">
+        <label for="type">Tipo</label>
+        <p-selectButton
+          formControlName="type"
+          [options]="typeOptions"
+          [multiple]="false"
+          optionLabel="label"
+          optionValue="value"
+          name="type"
+        ></p-selectButton>
+        <app-input-message
+          [control]="categoryForm.get('type')"
+          error="required"
+          text="Tipo obrigatorio"
+        ></app-input-message>
+      </div>
+
+      <footer class="edit-card-footer">
+        <button
+          pButton
+          type="button"
+          label="Cancelar"
+          class="p-button-outlined"
+          [routerLink]="['/category']"
+        ></button>
+
+        <div class="footer-main-actions">
+          <button
+            pButton
+            type="submit"
+            icon="pi pi-check"
+            label="Salvar"
+            [disabled]="categoryForm.invalid"
+          ></button>
+        </div>
+      </footer>
+    </form>
+  </div>
+</section>

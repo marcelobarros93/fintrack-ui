@@ -6,6 +6,7 @@ import { Planning } from '../planning';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ErrorHandlerService } from '../../core/error-handler.service';
 import {
+  CategoryType,
   CategoryResponse,
   CategoryService,
 } from '../../category/category.service';
@@ -51,13 +52,13 @@ export class PlanningComponent implements OnInit {
   categories: CategoryResponse[] = [];
 
   constructor(
-    private formBuilder: FormBuilder,
-    private planningService: PlanningService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private messageService: MessageService,
-    private errorHandlingService: ErrorHandlerService,
-    private categoryService: CategoryService
+    private readonly formBuilder: FormBuilder,
+    private readonly planningService: PlanningService,
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly messageService: MessageService,
+    private readonly errorHandlingService: ErrorHandlerService,
+    private readonly categoryService: CategoryService
   ) {}
 
   ngOnInit(): void {
@@ -172,7 +173,7 @@ export class PlanningComponent implements OnInit {
     return new Date(dateParts[0], dateParts[1] - 1);
   }
 
-  loadCategories(type: string) {
+  loadCategories(type: CategoryType | null) {
     if (type) {
       this.categoryService.findByType(type).subscribe({
         next: (result) => {

@@ -233,14 +233,16 @@ app-income-list .empty-state {
 }
 
 app-expense-list .expense-page,
-app-planning-list .planning-page {
+app-planning-list .planning-page,
+app-category-list .category-page {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
 }
 
 app-expense-list .expense-header,
-app-planning-list .planning-header {
+app-planning-list .planning-header,
+app-category-list .category-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -248,7 +250,8 @@ app-planning-list .planning-header {
 }
 
 app-expense-list .expense-header h1,
-app-planning-list .planning-header h1 {
+app-planning-list .planning-header h1,
+app-category-list .category-header h1 {
     margin: 0;
     font-size: 2.3rem;
     font-weight: 700;
@@ -256,28 +259,32 @@ app-planning-list .planning-header h1 {
 }
 
 app-expense-list .expense-header p,
-app-planning-list .planning-header p {
+app-planning-list .planning-header p,
+app-category-list .category-header p {
     margin: 0.45rem 0 0;
     font-size: 1.25rem;
     color: #64748b;
 }
 
 app-expense-list .new-expense-button,
-app-planning-list .new-planning-button {
+app-planning-list .new-planning-button,
+app-category-list .new-category-button {
     height: 3.1rem;
     border-radius: 0.75rem;
     padding: 0 1.3rem;
 }
 
 app-expense-list .summary-grid,
-app-planning-list .summary-grid {
+app-planning-list .summary-grid,
+app-category-list .summary-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
 }
 
 app-expense-list .summary-card,
-app-planning-list .summary-card {
+app-planning-list .summary-card,
+app-category-list .summary-card {
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -288,7 +295,8 @@ app-planning-list .summary-card {
 }
 
 app-expense-list .summary-card strong,
-app-planning-list .summary-card strong {
+app-planning-list .summary-card strong,
+app-category-list .summary-card strong {
     display: block;
     font-size: 1.95rem;
     font-weight: 600;
@@ -297,7 +305,8 @@ app-planning-list .summary-card strong {
 }
 
 app-expense-list .summary-card h3,
-app-planning-list .summary-card h3 {
+app-planning-list .summary-card h3,
+app-category-list .summary-card h3 {
     margin: 0.45rem 0 0;
     font-size: 2.25rem;
     font-weight: 700;
@@ -305,14 +314,16 @@ app-planning-list .summary-card h3 {
 }
 
 app-expense-list .summary-card p,
-app-planning-list .summary-card p {
+app-planning-list .summary-card p,
+app-category-list .summary-card p {
     margin: 0.25rem 0 0;
     color: #64748b;
     font-size: 1.2rem;
 }
 
 app-expense-list .summary-icon,
-app-planning-list .summary-icon {
+app-planning-list .summary-icon,
+app-category-list .summary-icon {
     width: 2.35rem;
     height: 2.35rem;
     border-radius: 999px;
@@ -323,13 +334,15 @@ app-planning-list .summary-icon {
 }
 
 app-expense-list .summary-card.paid .summary-icon,
-app-planning-list .summary-card.income .summary-icon {
+app-planning-list .summary-card.income .summary-icon,
+app-category-list .summary-card.income .summary-icon {
     background: #d7f8e8;
     color: #0f9d58;
 }
 
 app-expense-list .summary-card.pending .summary-icon,
-app-planning-list .summary-card.expense .summary-icon {
+app-planning-list .summary-card.expense .summary-icon,
+app-category-list .summary-card.expense .summary-icon {
     background: #d9ebff;
     color: #2563eb;
 }
@@ -350,8 +363,14 @@ app-planning-list .summary-card.inactive h3 {
     color: #c62828;
 }
 
+app-category-list .summary-card.neutral .summary-icon {
+    background: #e5ecf6;
+    color: #334155;
+}
+
 app-expense-list .filter-toolbar,
-app-planning-list .filter-toolbar {
+app-planning-list .filter-toolbar,
+app-category-list .filter-toolbar {
     display: grid;
     grid-template-columns: minmax(220px, 1fr) 180px 240px auto;
     gap: 0.9rem;
@@ -363,12 +382,14 @@ app-planning-list .filter-toolbar {
 }
 
 app-expense-list .search-box,
-app-planning-list .search-box {
+app-planning-list .search-box,
+app-category-list .search-box {
     position: relative;
 }
 
 app-expense-list .search-box i,
-app-planning-list .search-box i {
+app-planning-list .search-box i,
+app-category-list .search-box i {
     position: absolute;
     left: 1rem;
     top: 50%;
@@ -377,7 +398,8 @@ app-planning-list .search-box i {
 }
 
 app-expense-list .search-box input,
-app-planning-list .search-box input {
+app-planning-list .search-box input,
+app-category-list .search-box input {
     width: 100%;
     height: 2.9rem;
     border-radius: 0.65rem;
@@ -385,13 +407,15 @@ app-planning-list .search-box input {
 }
 
 app-expense-list .clear-button,
-app-planning-list .clear-button {
+app-planning-list .clear-button,
+app-category-list .clear-button {
     height: 2.9rem;
     border-radius: 0.65rem;
 }
 
 app-expense-list .table-shell,
-app-planning-list .table-shell {
+app-planning-list .table-shell,
+app-category-list .table-shell {
     border: 1px solid #dde3ec;
     border-radius: 0.95rem;
     overflow: hidden;
@@ -399,7 +423,8 @@ app-planning-list .table-shell {
 }
 
 app-expense-list .expense-table .p-datatable-thead > tr > th,
-app-planning-list .planning-table .p-datatable-thead > tr > th {
+app-planning-list .planning-table .p-datatable-thead > tr > th,
+app-category-list .category-table .p-datatable-thead > tr > th {
     background: #f8fafc;
     color: #1f2937;
     font-weight: 700;
@@ -409,7 +434,8 @@ app-planning-list .planning-table .p-datatable-thead > tr > th {
 }
 
 app-expense-list .expense-table .p-datatable-tbody > tr > td,
-app-planning-list .planning-table .p-datatable-tbody > tr > td {
+app-planning-list .planning-table .p-datatable-tbody > tr > td,
+app-category-list .category-table .p-datatable-tbody > tr > td {
     border-color: #dde3ec;
     padding: 1rem 1.2rem;
     font-size: 1.1rem;
@@ -426,7 +452,8 @@ app-planning-list .col-day,
 app-planning-list .col-date,
 app-planning-list .col-type,
 app-planning-list .col-status,
-app-planning-list .col-actions {
+app-planning-list .col-actions,
+app-category-list .col-type {
     white-space: nowrap;
 }
 
@@ -438,7 +465,8 @@ app-planning-list .col-actions {
 
 app-expense-list .status-pill,
 app-planning-list .status-pill,
-app-planning-list .type-pill {
+app-planning-list .type-pill,
+app-category-list .type-pill {
     display: inline-flex;
     align-items: center;
     border-radius: 999px;
@@ -454,14 +482,16 @@ app-expense-list .status-pill.is-pending {
 
 app-expense-list .status-pill.is-paid,
 app-planning-list .status-pill.is-received,
-app-planning-list .type-pill.is-income {
+app-planning-list .type-pill.is-income,
+app-category-list .type-pill.is-income {
     background: #dbf5e9;
     color: #16613f;
 }
 
 app-expense-list .status-pill.is-overdue,
 app-planning-list .status-pill.is-overdue,
-app-planning-list .type-pill.is-expense {
+app-planning-list .type-pill.is-expense,
+app-category-list .type-pill.is-expense {
     background: #ffe2e2;
     color: #b42318;
 }
@@ -475,7 +505,8 @@ app-planning-list .action-toggle {
 }
 
 app-expense-list .empty-state,
-app-planning-list .empty-state {
+app-planning-list .empty-state,
+app-category-list .empty-state {
     text-align: center;
     color: #64748b;
     padding: 1.2rem;
@@ -483,17 +514,20 @@ app-planning-list .empty-state {
 
 @media (max-width: 1200px) {
     app-expense-list .summary-grid,
-    app-planning-list .summary-grid {
+    app-planning-list .summary-grid,
+    app-category-list .summary-grid {
         grid-template-columns: 1fr;
     }
 
     app-expense-list .filter-toolbar,
-    app-planning-list .filter-toolbar {
+    app-planning-list .filter-toolbar,
+    app-category-list .filter-toolbar {
         grid-template-columns: 1fr;
     }
 
     app-expense-list .expense-header,
-    app-planning-list .planning-header {
+    app-planning-list .planning-header,
+    app-category-list .category-header {
         flex-direction: column;
         align-items: stretch;
     }
@@ -501,13 +535,15 @@ app-planning-list .empty-state {
 
 app-income .edit-screen,
 app-expense .edit-screen,
-app-planning .edit-screen {
+app-planning .edit-screen,
+app-category .edit-screen {
     padding: 0.5rem 0;
 }
 
 app-income .edit-card,
 app-expense .edit-card,
-app-planning .edit-card {
+app-planning .edit-card,
+app-category .edit-card {
     max-width: 980px;
     margin: 0 auto;
     border: 1px solid #dce3ed;
@@ -518,7 +554,8 @@ app-planning .edit-card {
 
 app-income .edit-card-header,
 app-expense .edit-card-header,
-app-planning .edit-card-header {
+app-planning .edit-card-header,
+app-category .edit-card-header {
     padding: 2rem 2rem 1rem;
     display: flex;
     align-items: center;
@@ -528,7 +565,8 @@ app-planning .edit-card-header {
 
 app-income .edit-card-header h1,
 app-expense .edit-card-header h1,
-app-planning .edit-card-header h1 {
+app-planning .edit-card-header h1,
+app-category .edit-card-header h1 {
     margin: 0;
     color: #243147;
     font-size: 2.4rem;
@@ -537,7 +575,8 @@ app-planning .edit-card-header h1 {
 
 app-income .edit-status-pill,
 app-expense .edit-status-pill,
-app-planning .edit-status-pill {
+app-planning .edit-status-pill,
+app-category .edit-status-pill {
     border-radius: 999px;
     padding: 0.55rem 1rem;
     font-size: 1.1rem;
@@ -546,33 +585,38 @@ app-planning .edit-status-pill {
 
 app-income .edit-status-pill.is-warning,
 app-expense .edit-status-pill.is-warning,
-app-planning .edit-status-pill.is-warning {
+app-planning .edit-status-pill.is-warning,
+app-category .edit-status-pill.is-warning {
     background: #fff3da;
     color: #7a4d12;
 }
 
 app-income .edit-status-pill.is-success,
 app-expense .edit-status-pill.is-success,
-app-planning .edit-status-pill.is-success {
+app-planning .edit-status-pill.is-success,
+app-category .edit-status-pill.is-success {
     background: #dbf5e9;
     color: #16613f;
 }
 
 app-income .edit-form,
 app-expense .edit-form,
-app-planning .edit-form {
+app-planning .edit-form,
+app-category .edit-form {
     padding: 0 2rem 0;
 }
 
 app-income .edit-grid,
 app-expense .edit-grid,
-app-planning .edit-grid {
+app-planning .edit-grid,
+app-category .edit-grid {
     margin-bottom: 1.2rem;
 }
 
 app-income .edit-grid label,
 app-expense .edit-grid label,
-app-planning .edit-grid label {
+app-planning .edit-grid label,
+app-category .edit-grid label {
     display: block;
     margin-bottom: 0.45rem;
     color: #475569;
@@ -582,13 +626,15 @@ app-planning .edit-grid label {
 
 app-income .edit-grid.full,
 app-expense .edit-grid.full,
-app-planning .edit-grid.full {
+app-planning .edit-grid.full,
+app-category .edit-grid.full {
     display: block;
 }
 
 app-income .edit-grid.two-cols,
 app-expense .edit-grid.two-cols,
-app-planning .edit-grid.two-cols {
+app-planning .edit-grid.two-cols,
+app-category .edit-grid.two-cols {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
@@ -596,7 +642,8 @@ app-planning .edit-grid.two-cols {
 
 app-income .edit-grid.switch-grid,
 app-expense .edit-grid.switch-grid,
-app-planning .edit-grid.switch-grid {
+app-planning .edit-grid.switch-grid,
+app-category .edit-grid.switch-grid {
     border-top: 1px solid #e3e8ef;
     padding-top: 1.2rem;
 }
@@ -621,7 +668,8 @@ app-planning .switch-field label {
 
 app-income .edit-card-footer,
 app-expense .edit-card-footer,
-app-planning .edit-card-footer {
+app-planning .edit-card-footer,
+app-category .edit-card-footer {
     border-top: 1px solid #e3e8ef;
     margin-top: 1.5rem;
     padding: 1.2rem 2rem;
@@ -633,7 +681,8 @@ app-planning .edit-card-footer {
 
 app-income .footer-main-actions,
 app-expense .footer-main-actions,
-app-planning .footer-main-actions {
+app-planning .footer-main-actions,
+app-category .footer-main-actions {
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -652,34 +701,40 @@ app-planning .edit-card .p-inputnumber,
 app-income .edit-card .p-calendar,
 app-expense .edit-card .p-calendar,
 app-planning .edit-card .p-calendar,
-app-planning .edit-card .p-selectbutton {
+app-planning .edit-card .p-selectbutton,
+app-category .edit-card .p-selectbutton,
+app-category .edit-card .p-inputtext {
     width: 100%;
 }
 
 @media (max-width: 991px) {
     app-income .edit-card-header,
     app-expense .edit-card-header,
-    app-planning .edit-card-header {
+    app-planning .edit-card-header,
+    app-category .edit-card-header {
         flex-direction: column;
         align-items: flex-start;
     }
 
     app-income .edit-grid.two-cols,
     app-expense .edit-grid.two-cols,
-    app-planning .edit-grid.two-cols {
+    app-planning .edit-grid.two-cols,
+    app-category .edit-grid.two-cols {
         grid-template-columns: 1fr;
     }
 
     app-income .edit-card-footer,
     app-expense .edit-card-footer,
-    app-planning .edit-card-footer {
+    app-planning .edit-card-footer,
+    app-category .edit-card-footer {
         flex-direction: column;
         align-items: stretch;
     }
 
     app-income .footer-main-actions,
     app-expense .footer-main-actions,
-    app-planning .footer-main-actions {
+    app-planning .footer-main-actions,
+    app-category .footer-main-actions {
         width: 100%;
     }
 }
