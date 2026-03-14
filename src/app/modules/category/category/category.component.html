@@ -1,7 +1,7 @@
 <section class="edit-screen category-edit">
   <div class="edit-card">
     <header class="edit-card-header">
-      <h1>Nova categoria</h1>
+      <h1>{{ pageTitle }}</h1>
       <span class="edit-status-pill" [ngClass]="statusClass">{{
         statusLabel
       }}</span>
@@ -72,6 +72,15 @@
             icon="pi pi-check"
             label="Salvar"
             [disabled]="categoryForm.invalid"
+          ></button>
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            label="Novo"
+            class="p-button-outlined"
+            *ngIf="editing"
+            [routerLink]="['/category/new']"
           ></button>
         </div>
       </footer>

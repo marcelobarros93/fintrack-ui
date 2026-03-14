@@ -4,4 +4,5 @@ export class Category {
   id?: number;
   name?: string;
   type?: CategoryType;
+  active?: boolean;
 }

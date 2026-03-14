@@ -348,24 +348,22 @@ app-category-list .summary-card.expense .summary-icon {
 }
 
 app-expense-list .summary-card.overdue,
-app-planning-list .summary-card.inactive {
+app-planning-list .summary-card.inactive,
+app-category-list .summary-card.inactive {
     background: #fff8f7;
 }
 
 app-expense-list .summary-card.overdue .summary-icon,
-app-planning-list .summary-card.inactive .summary-icon {
+app-planning-list .summary-card.inactive .summary-icon,
+app-category-list .summary-card.inactive .summary-icon {
     background: #fde0db;
     color: #dc2626;
 }
 
 app-expense-list .summary-card.overdue h3,
-app-planning-list .summary-card.inactive h3 {
+app-planning-list .summary-card.inactive h3,
+app-category-list .summary-card.inactive h3 {
     color: #c62828;
-}
-
-app-category-list .summary-card.neutral .summary-icon {
-    background: #e5ecf6;
-    color: #334155;
 }
 
 app-expense-list .filter-toolbar,

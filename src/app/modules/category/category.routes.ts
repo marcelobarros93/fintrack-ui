@@ -11,4 +11,8 @@ export const CATEGORY_ROUTES: Routes = [
     path: 'new',
     component: CategoryComponent,
   },
+  {
+    path: ':id',
+    component: CategoryComponent,
+  },
 ];

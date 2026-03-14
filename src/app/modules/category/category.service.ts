@@ -10,10 +10,15 @@ export interface CategoryCreateRequest {
   type: CategoryType;
 }
 
+export interface CategoryUpdateRequest {
+  name: string;
+}
+
 export interface CategoryResponse {
   id: number;
   name: string;
   type: CategoryType;
+  active: boolean;
 }
 
 @Injectable({
@@ -40,5 +45,17 @@ export class CategoryService {
 
   create(category: CategoryCreateRequest): Observable<CategoryResponse> {
     return this.http.post<CategoryResponse>(this.baseUrl, category);
+  }
+
+  update(id: number, category: CategoryUpdateRequest): Observable<CategoryResponse> {
+    return this.http.put<CategoryResponse>(`${this.baseUrl}/${id}`, category);
+  }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+  toggleActive(id: number): Observable<CategoryResponse> {
+    return this.http.put<CategoryResponse>(`${this.baseUrl}/${id}/active`, {});
   }
 }

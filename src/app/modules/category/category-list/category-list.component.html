@@ -1,8 +1,10 @@
+<p-confirmPopup></p-confirmPopup>
+
 <section class="category-page">
   <header class="category-header">
     <div>
       <h1>Categorias</h1>
-      <p>Organize as classificacoes de receitas e despesas.</p>
+      <p>Organize as classificações de receitas e despesas.</p>
     </div>
 
     <button
@@ -21,7 +23,7 @@
       <div>
         <strong>Categorias de receita</strong>
         <h3>{{ incomeCount }}</h3>
-        <p>classificacao(oes) visiveis</p>
+        <p>classificação(ões) visíveis</p>
       </div>
     </article>
 
@@ -30,16 +32,16 @@
       <div>
         <strong>Categorias de despesa</strong>
         <h3>{{ expenseCount }}</h3>
-        <p>classificacao(oes) visiveis</p>
+        <p>classificação(ões) visíveis</p>
       </div>
     </article>
 
-    <article class="summary-card neutral">
-      <div class="summary-icon"><i class="pi pi-tags"></i></div>
+    <article class="summary-card inactive">
+      <div class="summary-icon"><i class="pi pi-ban"></i></div>
       <div>
-        <strong>Total listado</strong>
-        <h3>{{ filteredCategories.length }}</h3>
-        <p>{{ categories.length }} categoria(s) carregada(s)</p>
+        <strong>Inativas</strong>
+        <h3>{{ inactiveCount }}</h3>
+        <p>{{ activeCount }} ativa(s)</p>
       </div>
     </article>
   </section>
@@ -67,7 +69,16 @@
       (onChange)="applyFilters()"
     ></p-dropdown>
 
-    <div></div>
+    <p-dropdown
+      [options]="activeOptions"
+      [(ngModel)]="selectedActive"
+      name="active"
+      optionLabel="label"
+      optionValue="value"
+      styleClass="toolbar-dropdown"
+      placeholder="Status"
+      (onChange)="applyFilters()"
+    ></p-dropdown>
 
     <button
       pButton
@@ -95,6 +106,8 @@
         <tr>
           <th scope="col">Nome</th>
           <th scope="col" class="col-type">Tipo</th>
+          <th scope="col" class="col-status">Status</th>
+          <th scope="col" class="col-actions"></th>
         </tr>
       </ng-template>
 
@@ -106,12 +119,36 @@
               {{ typeLabel(category.type) }}
             </span>
           </td>
+          <td class="col-status">
+            <span class="status-pill" [ngClass]="statusClass(category)">
+              {{ category.active ? "Ativa" : "Inativa" }}
+            </span>
+          </td>
+          <td class="col-actions">
+            <button
+              pButton
+              type="button"
+              icon="pi pi-ellipsis-h"
+              class="p-button-text action-toggle"
+              aria-label="Acoes da categoria"
+              title="Acoes da categoria"
+              (click)="openActions(actionsMenu, $event, category)"
+              pTooltip="Opcoes"
+              tooltipPosition="left"
+            ></button>
+            <p-menu
+              #actionsMenu
+              [popup]="true"
+              [model]="actionMenuItems"
+              appendTo="body"
+            ></p-menu>
+          </td>
         </tr>
       </ng-template>
 
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td colspan="2" class="empty-state">
+          <td colspan="4" class="empty-state">
             Nenhuma categoria encontrada para os filtros selecionados.
           </td>
         </tr>
